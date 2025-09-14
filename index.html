@@ -22,9 +22,9 @@
       --ifood-gray: #F5F5F5;
       
       /* 🌙 Dark Theme BetaZilla */
-      --bg: #0a0a0f;
-      --bg-panel: #12131a;
-      --bg-card: #16171e;
+      --bg: linear-gradient(135deg, #0a0a0f 0%, #12131a 100%);
+      --bg-panel: linear-gradient(135deg, #16171e 0%, #1a1b24 100%);
+      --bg-card: linear-gradient(135deg, #1e1f28 0%, #252631 100%);
       --text-primary: #f8f9fc;
       --text-secondary: #a5a7b5;
       --text-muted: #6b7280;
@@ -33,18 +33,29 @@
       
       /* 🎯 Status Colors */
       --success: #22c55e;
+      --success-light: #34d399;
       --warning: #f59e0b;
+      --warning-light: #fbbf24;
       --error: #ef4444;
+      --error-light: #f87171;
       
       /* ✨ Effects */
       --shadow: 0 10px 40px rgba(0,0,0,.4);
       --shadow-hover: 0 20px 60px rgba(234,29,44,.15);
+      --shadow-success: 0 10px 30px rgba(34,197,94,.2);
+      --shadow-warning: 0 10px 30px rgba(245,158,11,.2);
+      --shadow-error: 0 10px 30px rgba(239,68,68,.2);
       --radius: 16px;
       --radius-small: 8px;
       
       /* 🦖 BetaZilla Glow */
       --glow-primary: 0 0 20px rgba(234,29,44,.4);
       --glow-success: 0 0 20px rgba(34,197,94,.4);
+      --glow-warning: 0 0 20px rgba(245,158,11,.4);
+      
+      /* 🎭 Animations */
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     /* ================ 🎭 GLOBAL STYLES ================ */
@@ -55,22 +66,57 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif;
       background: var(--bg);
       color: var(--text-primary);
       line-height: 1.6;
       overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ================ 🌟 ANIMATIONS ================ */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes glow {
+      0%, 100% {
+        box-shadow: var(--glow-primary);
+      }
+      50% {
+        box-shadow: var(--glow-primary), 0 0 30px rgba(234,29,44,.6);
+      }
     }
 
     /* ================ 🎨 HEADER ================ */
     .header {
-      background: linear-gradient(135deg, var(--bg-panel) 0%, var(--bg-card) 100%);
+      background: var(--bg-panel);
       border-bottom: 2px solid var(--border);
       padding: 1.5rem 2rem;
       box-shadow: var(--shadow);
       position: sticky;
       top: 0;
       z-index: 1000;
+      backdrop-filter: blur(10px);
+      animation: slideInLeft 0.6s ease;
     }
 
     .header-content {
@@ -87,12 +133,19 @@
       display: flex;
       align-items: center;
       gap: 1rem;
+      animation: fadeInUp 0.8s ease;
     }
 
     .logo {
       font-size: 2.5rem;
       filter: drop-shadow(var(--glow-primary));
-      animation: pulse 3s ease-in-out infinite;
+      animation: glow 4s ease-in-out infinite;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .logo:hover {
+      transform: scale(1.1) rotate(5deg);
     }
 
     @keyframes pulse {
@@ -103,16 +156,30 @@
     .title {
       font-size: 1.5rem;
       font-weight: 700;
-      background: linear-gradient(45deg, var(--ifood-red), var(--ifood-orange));
+      background: linear-gradient(45deg, var(--ifood-red), var(--ifood-orange), var(--ifood-yellow));
+      background-size: 200% 200%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      animation: gradientShift 3s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
     }
 
     .subtitle {
       font-size: 0.9rem;
       color: var(--text-secondary);
       font-weight: 500;
+      opacity: 0.8;
+      transition: var(--transition);
+    }
+
+    .subtitle:hover {
+      opacity: 1;
+      color: var(--text-primary);
     }
 
     /* ================ 🎯 STATUS BAR ================ */
@@ -164,18 +231,25 @@
     }
 
     .stat-card {
-      background: linear-gradient(135deg, var(--bg-panel) 0%, var(--bg-card) 100%);
+      background: var(--bg-panel);
       border-radius: var(--radius);
       padding: 1.5rem;
       border: 1px solid var(--border);
       box-shadow: var(--shadow);
-      transition: all 0.3s ease;
+      transition: var(--transition);
       position: relative;
       overflow: hidden;
+      animation: fadeInUp 0.6s ease;
+      animation-fill-mode: both;
     }
 
+    .stat-card:nth-child(1) { animation-delay: 0.1s; }
+    .stat-card:nth-child(2) { animation-delay: 0.2s; }
+    .stat-card:nth-child(3) { animation-delay: 0.3s; }
+    .stat-card:nth-child(4) { animation-delay: 0.4s; }
+
     .stat-card:hover {
-      transform: translateY(-2px);
+      transform: translateY(-5px) scale(1.02);
       box-shadow: var(--shadow-hover);
       border-color: var(--border-hover);
     }
@@ -186,9 +260,33 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--ifood-red), var(--ifood-orange));
+      height: 4px;
+      background: linear-gradient(90deg, var(--ifood-red), var(--ifood-orange), var(--ifood-yellow));
+      background-size: 200% 100%;
       border-radius: var(--radius) var(--radius) 0 0;
+      animation: gradientFlow 3s ease infinite;
+    }
+
+    @keyframes gradientFlow {
+      0%, 100% { background-position: 0% 0%; }
+      50% { background-position: 100% 0%; }
+    }
+
+    .stat-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(234,29,44,.05) 0%, rgba(255,107,53,.05) 100%);
+      pointer-events: none;
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .stat-card:hover::after {
+      opacity: 1;
     }
 
     .stat-header {
@@ -196,6 +294,48 @@
       align-items: center;
       justify-content: space-between;
       margin-bottom: 1rem;
+    }
+
+    .stat-icon {
+      font-size: 1.5rem;
+      opacity: 0.7;
+      transition: var(--transition);
+    }
+
+    .stat-card:hover .stat-icon {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--ifood-red) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      transition: var(--transition);
+    }
+
+    .stat-card:hover .stat-value {
+      transform: scale(1.05);
+    }
+
+    .stat-change {
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .stat-title {
@@ -262,37 +402,65 @@
     }
 
     .btn {
-      padding: 0.5rem 1rem;
+      padding: 0.75rem 1.5rem;
       border: none;
       border-radius: var(--radius-small);
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: var(--transition);
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      min-height: 42px;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.2), transparent);
+      transition: var(--transition);
+    }
+
+    .btn:hover::before {
+      left: 100%;
     }
 
     .btn-primary {
-      background: linear-gradient(45deg, var(--ifood-red), var(--ifood-red-dark));
+      background: linear-gradient(135deg, var(--ifood-red) 0%, var(--ifood-orange) 100%);
       color: white;
+      box-shadow: 0 4px 15px rgba(234,29,44,.3);
     }
 
     .btn-primary:hover {
-      box-shadow: var(--glow-primary);
-      transform: translateY(-1px);
+      box-shadow: var(--glow-primary), 0 6px 20px rgba(234,29,44,.4);
+      transform: translateY(-2px);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
     }
 
     .btn-secondary {
       background: var(--bg-card);
       color: var(--text-secondary);
       border: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0,0,0,.1);
     }
 
     .btn-secondary:hover {
-      background: var(--border);
+      background: var(--border-hover);
       color: var(--text-primary);
+      border-color: var(--ifood-red);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,.2);
     }
 
     .table-container {
@@ -448,6 +616,214 @@
 
     .mb-1 { margin-bottom: 0.5rem; }
     .mb-2 { margin-bottom: 1rem; }
+    .hidden { display: none; }
+
+    /* ================ 🏷️ TABS NAVIGATION ================ */
+    .tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      padding: 0.5rem;
+      background: var(--bg-panel);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      flex-wrap: wrap;
+      backdrop-filter: blur(10px);
+      animation: slideInLeft 0.8s ease;
+    }
+
+    .tab-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      padding: 0.875rem 1.5rem;
+      border-radius: var(--radius-small);
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.9rem;
+      font-weight: 600;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tab-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(234,29,44,.1), transparent);
+      transition: var(--transition);
+    }
+
+    .tab-btn:hover::before {
+      left: 100%;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-primary);
+      background: var(--bg-card);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,.3);
+    }
+
+    .tab-btn.active {
+      color: #ffffff;
+      background: linear-gradient(135deg, var(--ifood-red) 0%, var(--ifood-orange) 100%);
+      box-shadow: var(--glow-primary);
+      transform: translateY(-1px);
+    }
+
+    .tab-btn.active::before {
+      display: none;
+    }
+
+    /* ================ 📄 VIEWS ================ */
+    .view {
+      display: block;
+    }
+
+    .view.hidden {
+      display: none;
+    }
+
+    .panel {
+      background: var(--bg-panel);
+      border-radius: var(--radius);
+      padding: 2rem;
+      border: 1px solid var(--border);
+      margin-bottom: 2rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius-small);
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+      margin-bottom: 1rem;
+    }
+
+    .card h4 {
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+
+    pre {
+      background: var(--bg) !important;
+      padding: 16px !important;
+      border-radius: 8px !important;
+      overflow-x: auto !important;
+      margin: 12px 0 !important;
+      border: 1px solid var(--border) !important;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+    }
+
+    code {
+      font-family: 'Monaco', 'Menlo', monospace;
+      color: var(--text-primary);
+    }
+
+    /* ================ ⚡ QUICK INFO SECTION ================ */
+    .quick-info-section {
+      animation: fadeInUp 0.8s ease;
+    }
+
+    .quick-info-badge {
+      background: var(--warning);
+      color: white;
+      font-size: 0.7rem;
+      padding: 0.2rem 0.4rem;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    .quick-info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+
+    .quick-info-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-small);
+      padding: 1rem;
+      border: 1px solid var(--border);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .quick-info-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--ifood-red);
+      opacity: 0.3;
+      transition: var(--transition);
+    }
+
+    .quick-info-card:hover::before {
+      opacity: 1;
+    }
+
+    .quick-info-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,.2);
+    }
+
+    .quick-info-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .quick-info-icon {
+      font-size: 1.2rem;
+    }
+
+    .quick-info-title {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .quick-info-content {
+      margin-left: 1.7rem;
+    }
+
+    .quick-info-status {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+    }
+
+    .quick-info-detail {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Status specific colors */
+    .quick-info-card.status-online .quick-info-status {
+      color: var(--success);
+    }
+
+    .quick-info-card.status-offline .quick-info-status {
+      color: var(--error);
+    }
+
+    .quick-info-card.status-warning .quick-info-status {
+      color: var(--warning);
+    }
+
+    .quick-info-card.status-loading .quick-info-status {
+      color: var(--text-muted);
+    }
     .mt-2 { margin-top: 1rem; }
 
     .hidden { display: none; }
@@ -563,83 +939,243 @@
   <!-- ================ 📊 MAIN CONTENT ================ -->
   <main class="main-content">
     
-    <!-- Configuration Section -->
-    <section class="config-section">
-      <h2 class="section-title mb-2">⚙️ Configuração</h2>
-      <div class="config-row">
-        <div class="config-label">🔗 URL do Google Apps Script:</div>
-        <input type="text" class="config-input" id="scriptUrl" 
-               placeholder="https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec"
-               value="">
+    <!-- 🎛️ Navigation Tabs -->
+    <nav class="tabs">
+      <button class="btn tab-btn active" data-view="dashboard">🚀 Dashboard</button>
+      <button class="btn tab-btn" data-view="config">⚙️ Configuração</button>
+      <button class="btn tab-btn" data-view="scripts">⚡ Scripts</button>
+      <button class="btn tab-btn" data-view="docs">📚 Documentação</button>
+      <div style="margin-left: auto; display: flex; gap: 12px; align-items: center;">
+        <span style="font-size: 12px; color: var(--text-muted);">
+          Última atualização: <span id="last-update">--:--</span>
+        </span>
+        <button class="btn btn-primary" id="refresh-btn">
+          <span>🔄</span> Atualizar
+        </button>
       </div>
-      <div class="config-row">
-        <div class="config-label">💾 Status da Conexão:</div>
-        <div class="config-value" id="connectionInfo">Aguardando configuração...</div>
+    </nav>
+
+    <!-- 🚀 Dashboard View -->
+    <section id="dashboard-view" class="view">
+      <!-- Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-icon">📊</span>
+            <span class="stat-label">Total de Registros</span>
+          </div>
+          <div class="stat-value" id="total-count">--</div>
+          <div class="stat-change text-muted" id="total-change">Carregando...</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-icon">✅</span>
+            <span class="stat-label">Integrados</span>
+          </div>
+          <div class="stat-value text-success" id="integrated-count">--</div>
+          <div class="stat-change text-muted" id="integrated-change">--</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-icon">⏳</span>
+            <span class="stat-label">Pendentes</span>
+          </div>
+          <div class="stat-value text-warning" id="pending-count">--</div>
+          <div class="stat-change text-muted" id="pending-change">--</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-icon">📈</span>
+            <span class="stat-label">Taxa de Sucesso</span>
+          </div>
+          <div class="stat-value text-success" id="success-rate">--%</div>
+          <div class="stat-change text-muted" id="success-change">--</div>
+        </div>
       </div>
-      <div style="margin-top: 1rem;">
-        <button class="btn btn-primary" onclick="testConnection()">
-          🧪 Testar Conexão
+
+      <!-- Data Table Section -->
+      <div class="panel">
+        <div class="section-header">
+          <h2 class="section-title">📋 Registros de Integração</h2>
+          <div class="controls">
+            <input type="text" class="search-input" id="searchInput" 
+                   placeholder="🔍 Buscar por restaurante, merchant ID..." />
+            <select class="filter-select" id="statusFilter">
+              <option value="">🔍 Todos os Status</option>
+              <option value="integrado">✅ Integrados</option>
+              <option value="pendente">⏳ Pendentes</option>
+              <option value="erro">❌ Com Erro</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="table-container" class="table-container">
+          <div class="loading-spinner" id="loading-spinner">
+            <div class="spinner"></div>
+            <p>Carregando dados...</p>
+          </div>
+          
+          <div id="data-content" class="hidden">
+            <table class="data-table" id="dataTable">
+              <thead>
+                <tr>
+                  <th>📋 Solicitante</th>
+                  <th>🍕 Restaurante</th>
+                  <th>🆔 Merchant ID</th>
+                  <th>🔗 Integradora</th>
+                  <th>📦 Produto</th>
+                  <th>📊 Status</th>
+                  <th>👤 Responsável</th>
+                  <th>📝 Observações</th>
+                </tr>
+              </thead>
+              <tbody id="dataTableBody">
+                <!-- Data will be populated here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⚙️ Configuration View -->
+    <section id="config-view" class="view hidden">
+      <div class="panel">
+        <h2 class="section-title mb-2">⚙️ Configuração</h2>
+        <div class="config-row">
+          <div class="config-label">🔗 URL do Google Apps Script:</div>
+          <input type="text" class="config-input" id="scriptUrl" 
+                 placeholder="https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec"
+                 value="">
+        </div>
+        <div class="config-row">
+          <div class="config-label">💾 Status da Conexão:</div>
+          <div class="config-value" id="connectionInfo">Aguardando configuração...</div>
+        </div>
+        <div style="margin-top: 1rem;">
+          <button class="btn btn-primary" onclick="testConnection()">
+            🧪 Testar Conexão
         </button>
         <button class="btn btn-secondary" onclick="saveConfig()">
           💾 Salvar Configuração
-        </button>
-      </div>
-    </section>
-
-    <!-- Stats Grid -->
-    <section class="stats-grid" id="statsGrid">
-      <div class="stat-card">
-        <div class="stat-header">
-          <span class="stat-title">Total</span>
-          <span class="stat-icon">📊</span>
-        </div>
-        <div class="stat-value" id="totalCount">-</div>
-        <div class="stat-change change-neutral">Aguardando dados...</div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-header">
-          <span class="stat-title">Integrados</span>
-          <span class="stat-icon">✅</span>
-        </div>
-        <div class="stat-value text-success" id="integradosCount">-</div>
-        <div class="stat-change" id="integradosPercent">-%</div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-header">
-          <span class="stat-title">Pendentes</span>
-          <span class="stat-icon">⏳</span>
-        </div>
-        <div class="stat-value text-warning" id="pendentesCount">-</div>
-        <div class="stat-change" id="pendentesPercent">-%</div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-header">
-          <span class="stat-title">Última Atualização</span>
-          <span class="stat-icon">🕐</span>
-        </div>
-        <div class="stat-value font-mono" id="lastUpdate" style="font-size: 1.2rem;">--:--</div>
-        <div class="stat-change change-neutral" id="updateStatus">Aguardando...</div>
-      </div>
-    </section>
-
-    <!-- Data Table -->
-    <section class="data-section">
-      <div class="section-header">
-        <h2 class="section-title">
-          <span>📋</span> Dados das Integrações
-        </h2>
-        <div class="controls">
-          <button class="btn btn-primary" onclick="exportData()">
-            <span>📄</span> Exportar
           </button>
-          <button class="btn btn-secondary" onclick="toggleView()">
-            <span>👁️</span> Alternar Visão
+          <button class="btn btn-secondary" onclick="saveConfig()">
+            💾 Salvar Configuração
           </button>
         </div>
-      </div>
+        
+        <!-- Stats Grid -->
+        <div class="stats-grid" id="statsGrid" style="margin-top: 2rem;">
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Total</span>
+              <span class="stat-icon">📊</span>
+            </div>
+            <div class="stat-value" id="totalCount">-</div>
+            <div class="stat-change change-neutral">Aguardando dados...</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Integrados</span>
+              <span class="stat-icon">✅</span>
+            </div>
+            <div class="stat-value text-success" id="integradosCount">-</div>
+            <div class="stat-change" id="integradosPercent">-%</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Pendentes</span>
+              <span class="stat-icon">⏳</span>
+            </div>
+            <div class="stat-value text-warning" id="pendentesCount">-</div>
+            <div class="stat-change" id="pendentesPercent">-%</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Última Atualização</span>
+              <span class="stat-icon">🕐</span>
+            </div>
+            <div class="stat-value font-mono" id="lastUpdate" style="font-size: 1.2rem;">--:--</div>
+            <div class="stat-change change-neutral" id="updateStatus">Aguardando...</div>
+          </div>
+        </div>
+
+        <!-- Quick Info Section -->
+        <div class="quick-info-section" style="margin-top: 2rem;">
+          <div class="panel">
+            <h3 style="margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+              ⚡ Informações Rápidas
+              <span class="quick-info-badge" id="alertBadge" style="display: none;">⚠️</span>
+            </h3>
+            <div class="quick-info-grid">
+              <div class="quick-info-card" id="connectionCard">
+                <div class="quick-info-header">
+                  <span class="quick-info-icon">🔗</span>
+                  <span class="quick-info-title">Conexão</span>
+                </div>
+                <div class="quick-info-content">
+                  <div class="quick-info-status" id="connectionQuickStatus">Verificando...</div>
+                  <div class="quick-info-detail" id="connectionDetail">Aguardando configuração</div>
+                </div>
+              </div>
+
+              <div class="quick-info-card" id="dataFreshCard">
+                <div class="quick-info-header">
+                  <span class="quick-info-icon">📊</span>
+                  <span class="quick-info-title">Dados</span>
+                </div>
+                <div class="quick-info-content">
+                  <div class="quick-info-status" id="dataFreshStatus">--</div>
+                  <div class="quick-info-detail" id="dataFreshDetail">Nenhum dado carregado</div>
+                </div>
+              </div>
+
+              <div class="quick-info-card" id="performanceCard">
+                <div class="quick-info-header">
+                  <span class="quick-info-icon">⚡</span>
+                  <span class="quick-info-title">Performance</span>
+                </div>
+                <div class="quick-info-content">
+                  <div class="quick-info-status" id="performanceStatus">--</div>
+                  <div class="quick-info-detail" id="performanceDetail">Aguardando medição</div>
+                </div>
+              </div>
+
+              <div class="quick-info-card" id="alertsCard">
+                <div class="quick-info-header">
+                  <span class="quick-info-icon">🚨</span>
+                  <span class="quick-info-title">Alertas</span>
+                </div>
+                <div class="quick-info-content">
+                  <div class="quick-info-status" id="alertsStatus">0</div>
+                  <div class="quick-info-detail" id="alertsDetail">Nenhum alerta ativo</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Data Table -->
+        <div class="data-section" style="margin-top: 2rem;">
+          <div class="section-header">
+            <h2 class="section-title">
+              <span>📋</span> Dados das Integrações
+            </h2>
+            <div class="controls">
+              <button class="btn btn-primary" onclick="exportData()">
+                <span>📄</span> Exportar
+              </button>
+              <button class="btn btn-secondary" onclick="toggleView()">
+                <span>👁️</span> Alternar Visão
+              </button>
+            </div>
+          </div>
       
       <div class="table-container">
         <table class="data-table" id="dataTable">
@@ -661,6 +1197,93 @@
             </tr>
           </tbody>
         </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⚡ Scripts View -->
+    <section id="scripts-view" class="view hidden">
+      <div class="panel">
+        <h3 style="margin-bottom: 20px;">⚡ Scripts de Integração</h3>
+        <div class="card">
+          <h4>🐧 Script Linux/macOS</h4>
+          <p style="color: var(--text-secondary); margin: 8px 0;">Execute com privilégios sudo:</p>
+          <pre><code id="linux-script">wget --inet4-only -qO- "https://gitlab.com/scripts-beta/reativacao-totem/-/raw/main/reativacao.sh" | sed 's/\r$//' | sudo bash</code></pre>
+          <button class="btn btn-primary" onclick="copyToClipboard('linux-script')">
+            📋 Copiar Script Linux
+          </button>
+        </div>
+        <div class="card">
+          <h4>🪟 Script Windows PowerShell</h4>
+          <p style="color: var(--text-secondary); margin: 8px 0;">Execute como Administrador:</p>
+          <pre><code id="windows-script">Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://gitlab.com/scripts-beta/reativacao-totem/-/raw/main/reativacao.ps1'))</code></pre>
+          <button class="btn btn-primary" onclick="copyToClipboard('windows-script')">
+            📋 Copiar Script Windows
+          </button>
+        </div>
+        <div class="card">
+          <h4>🔄 Script de Configuração API</h4>
+          <p style="color: var(--text-secondary); margin: 8px 0;">Script para configurar integração com Google Apps Script:</p>
+          <pre><code id="api-script">// Configuração da API BetaZilla ARM
+const CONFIG = {
+  scriptUrl: '${CONFIG.scriptUrl || 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec'}',
+  refreshInterval: 30000,
+  maxRetries: 3
+};
+
+// Teste de conexão
+fetch(CONFIG.scriptUrl + '?action=ping')
+  .then(response => response.json())
+  .then(data => console.log('✅ Conexão OK:', data))
+  .catch(error => console.error('❌ Erro:', error));</code></pre>
+          <button class="btn btn-primary" onclick="copyToClipboard('api-script')">
+            📋 Copiar Script API
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 📚 Documentation View -->
+    <section id="docs-view" class="view hidden">
+      <div class="panel">
+        <h3 style="margin-bottom: 20px;">📚 Documentação</h3>
+        <div class="card">
+          <h4>📖 Guia de Integração</h4>
+          <p style="margin: 12px 0;">
+            <a href="https://ifood.atlassian.net/wiki/x/JhXXNAE" target="_blank" class="btn btn-primary">
+              🔗 Abrir Confluence
+            </a>
+          </p>
+          <p style="color: var(--text-secondary); margin: 12px 0;">
+            Documentação completa sobre integração de PDVs no sistema iFood.
+          </p>
+        </div>
+        <div class="card">
+          <h4>🚀 Início Rápido</h4>
+          <ol style="color: var(--text-secondary); margin: 12px 0; line-height: 1.8;">
+            <li>Configure a URL do Google Apps Script na aba Configuração</li>
+            <li>Teste a conexão para verificar se está funcionando</li>
+            <li>Use os scripts da aba Scripts para automação</li>
+            <li>Monitore os dados no Dashboard principal</li>
+          </ol>
+        </div>
+        <div class="card">
+          <h4>🔧 Solução de Problemas CORS</h4>
+          <p style="color: var(--text-secondary); margin: 12px 0; line-height: 1.6;">
+            Se você está enfrentando problemas de CORS (Cross-Origin Resource Sharing), aqui estão as soluções:
+          </p>
+          <ol style="color: var(--text-secondary); margin: 12px 0; line-height: 1.8;">
+            <li><strong>Apps Script:</strong> Certifique-se de que o script está publicado como "Acessível para qualquer pessoa"</li>
+            <li><strong>Deployment:</strong> Use HTTPS tanto no dashboard quanto no Apps Script</li>
+            <li><strong>Headers:</strong> Verifique se os headers CORS estão configurados no Apps Script</li>
+            <li><strong>Cache:</strong> Limpe o cache do navegador e teste novamente</li>
+          </ol>
+          <div style="margin-top: 16px;">
+            <button class="btn btn-primary" onclick="runDiagnostics()">
+              🔍 Executar Diagnóstico
+            </button>
+          </div>
+        </div>
       </div>
     </section>
   </main>
@@ -754,13 +1377,16 @@
       try {
         console.log('🧪 Testando conexão com:', CONFIG.scriptUrl);
         
-        // Primeiro testar ping
+        // Primeiro testar ping - usando mode 'no-cors' para evitar problemas CORS
         const pingUrl = `${CONFIG.scriptUrl}?action=ping&_t=${Date.now()}`;
         const pingResponse = await fetch(pingUrl, {
           method: 'GET',
+          mode: 'cors', // Usar CORS mas com tratamento de erro
           headers: {
             'Accept': 'application/json',
-          }
+            'Content-Type': 'application/json'
+          },
+          cache: 'no-cache'
         });
 
         if (!pingResponse.ok) {
@@ -784,6 +1410,9 @@
         
         // Carregar dados reais
         await loadRealData();
+        
+        // Atualizar quick info
+        updateQuickInfo();
         
       } catch (error) {
         console.error('❌ Erro na conexão:', error);
@@ -809,9 +1438,12 @@
         
         const response = await fetch(dataUrl, {
           method: 'GET',
+          mode: 'cors',
           headers: {
             'Accept': 'application/json',
-          }
+            'Content-Type': 'application/json'
+          },
+          cache: 'no-cache'
         });
 
         if (!response.ok) {
@@ -821,26 +1453,42 @@
         const result = await response.json();
         console.log('📊 Dados recebidos:', result);
 
-        if (!result.ok) {
-          throw new Error('Erro na API: ' + (result.error || 'Dados inválidos'));
+        if (!result || !result.ok) {
+          throw new Error('Erro na API: ' + (result?.error || 'Dados inválidos'));
         }
 
-        currentData = result.data || [];
+        // Validar e processar dados com verificações de segurança
+        const rawData = result.data || [];
+        currentData = rawData.filter(item => item && typeof item === 'object');
         
-        console.log('📊 Dados processados:', currentData.length, 'registros');
+        // Log detalhado para debug
+        console.log('📊 Dados processados:', {
+          total: currentData.length,
+          amostra: currentData.slice(0, 3),
+          statsRecebidas: result.stats
+        });
         
-        updateStats(result.stats);
+        // Atualizar interface com dados validados
+        if (result.stats && typeof result.stats === 'object') {
+          updateStats(result.stats);
+        } else {
+          // Calcular stats se não foram recebidas
+          updateStats();
+        }
+        
         updateTable();
         updateLastUpdateTime();
+        updateQuickInfo();
         
         showAlert(`✅ ${currentData.length} registros carregados com sucesso!`, 'success');
         
       } catch (error) {
         console.error('❌ Erro ao carregar dados:', error);
-        showAlert('❌ Erro ao carregar dados: ' + error.message, 'error');
+        showAlert(`❌ Erro ao carregar dados: ${error.message}`, 'error');
         
         // Fallback para dados simulados
         loadSimulatedData();
+        updateQuickInfo();
       }
     }
 
@@ -860,6 +1508,7 @@
       updateStats();
       updateTable();
       updateLastUpdateTime();
+      updateQuickInfo();
       
       showAlert('⚠️ Usando dados simulados - Configure o Apps Script para dados reais', 'warning');
     }
@@ -868,28 +1517,79 @@
     function updateStats(stats) {
       // Se stats foi passado como parâmetro, use-o; senão calcule
       if (!stats) {
-        const total = currentData.length;
-        const integrados = currentData.filter(item => item.status === 'Integrado').length;
-        const pendentes = currentData.filter(item => item.status === 'Pendente').length;
-        
-        stats = {
-          total: total,
-          integrados: integrados,
-          pendentes: pendentes,
-          pctIntegracao: total > 0 ? Math.round((integrados / total) * 100) : 0
-        };
+        try {
+          const total = currentData?.length || 0;
+          
+          if (total === 0) {
+            stats = { total: 0, integrados: 0, pendentes: 0, pctIntegracao: 0 };
+          } else {
+            // Contar integrados usando múltiplas verificações para evitar erros
+            const integrados = currentData.filter(item => {
+              if (!item) return false;
+              
+              // Verificar diferentes propriedades que podem indicar integração
+              const jaFeito = item['JA FEITO?'] || item['Ja feito'] || item.jaFeito || '';
+              const integrou = item['INTEGROU?'] || item['Integrou?'] || item.integrou || '';
+              const status = item.status || '';
+              
+              // Normalizar valores para comparação
+              const jafeitoLower = String(jaFeito).toLowerCase().trim();
+              const integrouLower = String(integrou).toLowerCase().trim();
+              const statusLower = String(status).toLowerCase().trim();
+              
+              return (
+                jafeitoLower === 'sim' ||
+                jafeitoLower === 'yes' ||
+                jafeitoLower === 'integrado' ||
+                integrouLower === 'sim' ||
+                integrouLower === 'yes' ||
+                statusLower === 'integrado' ||
+                statusLower === 'concluído' ||
+                statusLower === 'completo'
+              );
+            }).length;
+            
+            stats = {
+              total: total,
+              integrados: integrados,
+              pendentes: total - integrados,
+              pctIntegracao: total > 0 ? Math.round((integrados / total) * 100) : 0
+            };
+          }
+        } catch (error) {
+          console.error('❌ Erro ao calcular estatísticas:', error);
+          stats = { total: 0, integrados: 0, pendentes: 0, pctIntegracao: 0 };
+        }
       }
 
-      document.getElementById('totalCount').textContent = stats.total;
-      document.getElementById('integradosCount').textContent = stats.integrados;
-      document.getElementById('pendentesCount').textContent = stats.pendentes;
-      document.getElementById('integradosPercent').textContent = `${stats.pctIntegracao}%`;
-      document.getElementById('pendentesPercent').textContent = `${Math.round(((stats.pendentes / stats.total) * 100) || 0)}%`;
+      // Atualizar elementos com verificação de existência
+      const elements = {
+        'totalCount': stats.total || 0,
+        'integradosCount': stats.integrados || 0,
+        'pendentesCount': stats.pendentes || 0,
+        'integradosPercent': `${stats.pctIntegracao || 0}%`,
+        'pendentesPercent': `${Math.round(((stats.pendentes / stats.total) * 100) || 0)}%`
+      };
 
-      // Atualizar classes de mudança
-      document.getElementById('integradosPercent').className = 
-        stats.pctIntegracao > 70 ? 'stat-change change-positive' : 
-        stats.pctIntegracao > 30 ? 'stat-change change-neutral' : 'stat-change change-negative';
+      Object.entries(elements).forEach(([id, value]) => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.textContent = value;
+        } else {
+          console.warn(`⚠️ Elemento não encontrado: ${id}`);
+        }
+      });
+
+      // Atualizar classes de mudança com verificação
+      const integradosElement = document.getElementById('integradosPercent');
+      if (integradosElement) {
+        const pct = stats.pctIntegracao || 0;
+        integradosElement.className = 
+          pct > 70 ? 'stat-change change-positive' : 
+          pct > 30 ? 'stat-change change-neutral' : 'stat-change change-negative';
+      }
+      
+      console.log('📊 Stats atualizadas:', stats);
     }
 
     // ================ 📋 TABELA ================
@@ -1000,6 +1700,9 @@
         console.warn('⚠️ Não conectado - usando dados simulados');
         loadSimulatedData();
       }
+      
+      // Atualizar timestamp
+      updateLastUpdateTime();
     }
 
     // ================ 🎯 AÇÕES ================
@@ -1049,6 +1752,430 @@
       showAlert(`✏️ Funcionalidade de edição para item ${id} em desenvolvimento`, 'info');
     }
 
+    // ================ 🏷️ CONTROLE DE ABAS ================
+    function switchView(viewName) {
+      // Ocultar todas as views
+      document.querySelectorAll('.view').forEach(view => {
+        view.classList.add('hidden');
+      });
+      
+      // Remover classe active de todos os botões
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      
+      // Mostrar a view selecionada
+      const targetView = document.getElementById(`${viewName}-view`);
+      if (targetView) {
+        targetView.classList.remove('hidden');
+      }
+      
+      // Ativar o botão correspondente
+      const targetBtn = document.querySelector(`[data-view="${viewName}"]`);
+      if (targetBtn) {
+        targetBtn.classList.add('active');
+      }
+      
+      console.log(`🎛️ Mudando para view: ${viewName}`);
+    }
+
+    // ================ 📋 CLIPBOARD ================
+    function copyToClipboard(elementId) {
+      const element = document.getElementById(elementId);
+      if (!element) {
+        showAlert('❌ Elemento não encontrado', 'error');
+        return;
+      }
+      
+      const text = element.textContent;
+      
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => {
+          showAlert('📋 Código copiado com sucesso!', 'success');
+        }).catch(() => {
+          fallbackCopyToClipboard(text);
+        });
+      } else {
+        fallbackCopyToClipboard(text);
+      }
+    }
+
+    function fallbackCopyToClipboard(text) {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      textArea.style.top = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      
+      try {
+        document.execCommand('copy');
+        showAlert('📋 Código copiado com sucesso!', 'success');
+      } catch (err) {
+        showAlert('❌ Erro ao copiar código', 'error');
+      }
+      
+      document.body.removeChild(textArea);
+    }
+
+    // ================ 🔍 DIAGNÓSTICO ================
+    function runDiagnostics() {
+      console.log('🔍 Executando diagnóstico...');
+      
+      const diagnostics = [];
+      
+      // Verificar configuração
+      if (!CONFIG.scriptUrl) {
+        diagnostics.push('❌ URL do Google Apps Script não configurada');
+      } else {
+        diagnostics.push('✅ URL do Google Apps Script configurada');
+        
+        // Verificar formato da URL
+        if (CONFIG.scriptUrl.includes('script.google.com')) {
+          diagnostics.push('✅ URL parece válida (contém script.google.com)');
+        } else {
+          diagnostics.push('⚠️ URL pode estar incorreta (não contém script.google.com)');
+        }
+      }
+      
+      // Verificar conectividade
+      if (isConnected) {
+        diagnostics.push('✅ Conexão com Apps Script ativa');
+      } else {
+        diagnostics.push('❌ Sem conexão com Apps Script');
+      }
+      
+      // Verificar dados
+      if (currentData.length > 0) {
+        diagnostics.push(`✅ ${currentData.length} registros carregados`);
+      } else {
+        diagnostics.push('⚠️ Nenhum registro carregado');
+      }
+      
+      // Verificar HTTPS
+      if (window.location.protocol === 'https:') {
+        diagnostics.push('✅ Dashboard servido via HTTPS');
+      } else {
+        diagnostics.push('⚠️ Dashboard não está usando HTTPS (pode causar problemas CORS)');
+      }
+      
+      // Mostrar resultados
+      const result = diagnostics.join('\n');
+      showAlert(`🔍 Diagnóstico:\n\n${result}`, 'info');
+      console.log('🔍 Diagnóstico completo:', diagnostics);
+    }
+
+    // ================ ⏰ TIMESTAMP ================
+    function updateLastUpdateTime() {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString('pt-BR', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      });
+      
+      const element = document.getElementById('last-update');
+      if (element) {
+        element.textContent = timeString;
+      }
+    }
+
+    // ================ 🎛️ EVENT LISTENERS ================
+    document.addEventListener('DOMContentLoaded', function() {
+      // Event listeners para as abas
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const viewName = this.getAttribute('data-view');
+          switchView(viewName);
+        });
+      });
+      
+      // Event listener para o botão de refresh
+      const refreshBtn = document.getElementById('refresh-btn');
+      if (refreshBtn) {
+        refreshBtn.addEventListener('click', refreshData);
+      }
+      
+      // Atualizar timestamp inicial
+      updateLastUpdateTime();
+      
+      console.log('🎛️ Event listeners configurados');
+    });
+
+    // ================ ⚡ QUICK INFO FUNCTIONS ================
+    function updateQuickInfo() {
+      updateConnectionInfo();
+      updateDataFreshInfo();
+      updatePerformanceInfo();
+      updateAlertsInfo();
+    }
+
+    function updateConnectionInfo() {
+      const card = document.getElementById('connectionCard');
+      const status = document.getElementById('connectionQuickStatus');
+      const detail = document.getElementById('connectionDetail');
+      
+      if (isConnected) {
+        card.className = 'quick-info-card status-online';
+        status.textContent = 'Online';
+        detail.textContent = 'Conectado ao Apps Script';
+      } else {
+        card.className = 'quick-info-card status-offline';
+        status.textContent = 'Offline';
+        detail.textContent = CONFIG.scriptUrl ? 'Erro na conexão' : 'URL não configurada';
+      }
+    }
+
+    function updateDataFreshInfo() {
+      const card = document.getElementById('dataFreshCard');
+      const status = document.getElementById('dataFreshStatus');
+      const detail = document.getElementById('dataFreshDetail');
+      
+      if (currentData && currentData.length > 0) {
+        card.className = 'quick-info-card status-online';
+        status.textContent = `${currentData.length} registros`;
+        
+        // Calcular idade dos dados
+        const lastUpdateElement = document.getElementById('last-update');
+        const lastUpdateTime = lastUpdateElement ? lastUpdateElement.textContent : '';
+        
+        if (lastUpdateTime && lastUpdateTime !== '--:--') {
+          const now = new Date();
+          const lastUpdate = new Date();
+          const [hours, minutes] = lastUpdateTime.split(':');
+          lastUpdate.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+          
+          const diffMinutes = Math.floor((now - lastUpdate) / (1000 * 60));
+          
+          if (diffMinutes < 5) {
+            detail.textContent = 'Dados recentes';
+          } else if (diffMinutes < 30) {
+            detail.textContent = `Atualizados há ${diffMinutes} min`;
+          } else {
+            card.className = 'quick-info-card status-warning';
+            detail.textContent = `Dados antigos (${diffMinutes} min)`;
+          }
+        } else {
+          detail.textContent = 'Carregados agora';
+        }
+      } else {
+        card.className = 'quick-info-card status-offline';
+        status.textContent = '0 registros';
+        detail.textContent = 'Nenhum dado disponível';
+      }
+    }
+
+    function updatePerformanceInfo() {
+      const card = document.getElementById('performanceCard');
+      const status = document.getElementById('performanceStatus');
+      const detail = document.getElementById('performanceDetail');
+      
+      // Medir performance usando tempo de resposta das últimas operações
+      const performanceEntry = performance.getEntriesByType('measure').slice(-1)[0];
+      
+      if (performanceEntry) {
+        const responseTime = Math.round(performanceEntry.duration);
+        
+        if (responseTime < 1000) {
+          card.className = 'quick-info-card status-online';
+          status.textContent = `${responseTime}ms`;
+          detail.textContent = 'Resposta rápida';
+        } else if (responseTime < 3000) {
+          card.className = 'quick-info-card status-warning';
+          status.textContent = `${responseTime}ms`;
+          detail.textContent = 'Resposta moderada';
+        } else {
+          card.className = 'quick-info-card status-offline';
+          status.textContent = `${responseTime}ms`;
+          detail.textContent = 'Resposta lenta';
+        }
+      } else {
+        card.className = 'quick-info-card status-loading';
+        status.textContent = '--';
+        detail.textContent = 'Medindo performance...';
+      }
+    }
+
+    function updateAlertsInfo() {
+      const card = document.getElementById('alertsCard');
+      const status = document.getElementById('alertsStatus');
+      const detail = document.getElementById('alertsDetail');
+      const badge = document.getElementById('alertBadge');
+      
+      let alerts = 0;
+      let alertMessages = [];
+      
+      // Verificar alertas
+      if (!isConnected && CONFIG.scriptUrl) {
+        alerts++;
+        alertMessages.push('Sem conexão com Apps Script');
+      }
+      
+      if (!CONFIG.scriptUrl) {
+        alerts++;
+        alertMessages.push('Apps Script não configurado');
+      }
+      
+      if (currentData && currentData.length === 0 && isConnected) {
+        alerts++;
+        alertMessages.push('Nenhum dado retornado');
+      }
+      
+      // Verificar dados desatualizados
+      const lastUpdateElement = document.getElementById('last-update');
+      const lastUpdateTime = lastUpdateElement ? lastUpdateElement.textContent : '';
+      
+      if (lastUpdateTime && lastUpdateTime !== '--:--') {
+        const now = new Date();
+        const lastUpdate = new Date();
+        const [hours, minutes] = lastUpdateTime.split(':');
+        lastUpdate.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+        
+        const diffMinutes = Math.floor((now - lastUpdate) / (1000 * 60));
+        
+        if (diffMinutes > 60) {
+          alerts++;
+          alertMessages.push('Dados muito antigos');
+        }
+      }
+      
+      // Atualizar interface
+      status.textContent = alerts;
+      
+      if (alerts === 0) {
+        card.className = 'quick-info-card status-online';
+        detail.textContent = 'Sistema funcionando normalmente';
+        badge.style.display = 'none';
+      } else if (alerts <= 2) {
+        card.className = 'quick-info-card status-warning';
+        detail.textContent = alertMessages.slice(0, 2).join(', ');
+        badge.style.display = 'inline';
+      } else {
+        card.className = 'quick-info-card status-offline';
+        detail.textContent = `${alertMessages.length} problemas detectados`;
+        badge.style.display = 'inline';
+      }
+    }
+
+    // Atualizar quick info a cada 30 segundos
+    setInterval(updateQuickInfo, 30000);
+
+    // ================ 🎛️ CONTROLE DE ABAS ================
+    document.addEventListener('DOMContentLoaded', function() {
+      // Configurar eventos das abas
+      const tabButtons = document.querySelectorAll('.tab-btn[data-view]');
+      tabButtons.forEach(btn => {
+        btn.addEventListener('click', () => switchView(btn.dataset.view));
+      });
+      
+      // Configurar botão de atualização
+      document.getElementById('refresh-btn').addEventListener('click', refreshData);
+      
+      // Atualizar timestamp inicial
+      updateLastUpdateTime();
+    });
+
+    function switchView(viewName) {
+      // Remover classe active de todos os botões
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      
+      // Adicionar classe active no botão clicado
+      document.querySelector(`[data-view="${viewName}"]`).classList.add('active');
+      
+      // Ocultar todas as views
+      document.querySelectorAll('.view').forEach(view => {
+        view.classList.add('hidden');
+      });
+      
+      // Mostrar view selecionada
+      const targetView = document.getElementById(`${viewName}-view`);
+      if (targetView) {
+        targetView.classList.remove('hidden');
+      }
+      
+      console.log(`🎛️ Mudando para view: ${viewName}`);
+    }
+
+    function updateLastUpdateTime() {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString('pt-BR');
+      document.getElementById('last-update').textContent = timeString;
+    }
+
+    function copyToClipboard(elementId) {
+      const element = document.getElementById(elementId);
+      if (element) {
+        const text = element.textContent || element.innerText;
+        
+        // Usar Clipboard API se disponível
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(text).then(() => {
+            showAlert('📋 Copiado para a área de transferência!', 'success');
+          }).catch(err => {
+            console.error('Erro ao copiar:', err);
+            fallbackCopyTextToClipboard(text);
+          });
+        } else {
+          fallbackCopyTextToClipboard(text);
+        }
+      }
+    }
+
+    function fallbackCopyTextToClipboard(text) {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.top = '0';
+      textArea.style.left = '0';
+      textArea.style.position = 'fixed';
+
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+
+      try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+          showAlert('📋 Copiado para a área de transferência!', 'success');
+        } else {
+          showAlert('❌ Falha ao copiar. Selecione e copie manualmente.', 'error');
+        }
+      } catch (err) {
+        console.error('Fallback: Erro ao copiar', err);
+        showAlert('❌ Falha ao copiar. Selecione e copie manualmente.', 'error');
+      }
+
+      document.body.removeChild(textArea);
+    }
+
+    function runDiagnostics() {
+      console.log('🔍 Executando diagnóstico...');
+      showAlert('🔍 Diagnóstico iniciado - veja o console para detalhes', 'info');
+      
+      // Diagnóstico básico
+      const diagnostics = {
+        timestamp: new Date().toISOString(),
+        url: window.location.href,
+        userAgent: navigator.userAgent,
+        connected: isConnected,
+        scriptUrl: CONFIG.scriptUrl,
+        dataLength: currentData.length,
+        lastUpdate: document.getElementById('last-update').textContent
+      };
+      
+      console.table(diagnostics);
+      
+      // Teste de conectividade se configurado
+      if (CONFIG.scriptUrl) {
+        testConnection();
+      } else {
+        showAlert('⚠️ Configure a URL do Apps Script primeiro', 'warning');
+      }
+    }
+
     // ================ 🎛️ EXPOSIÇÃO GLOBAL ================
     window.testConnection = testConnection;
     window.saveConfig = saveConfig;
@@ -1056,6 +2183,10 @@
     window.exportData = exportData;
     window.toggleView = toggleView;
     window.editItem = editItem;
+    window.switchView = switchView;
+    window.copyToClipboard = copyToClipboard;
+    window.runDiagnostics = runDiagnostics;
+    window.updateQuickInfo = updateQuickInfo;
 
     console.log('🦖 BetaZilla ARM Dashboard carregado com sucesso!');
   </script>
