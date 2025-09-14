@@ -545,7 +545,7 @@
         <div class="logo">🦖</div>
         <div>
           <h1 class="title">BetaZilla ARM</h1>
-          <p class="subtitle">Dashboard Integrações PDV - Versão Standalone</p>
+          <p class="subtitle">Dashboard Integrações PDV - Versão Completa</p>
         </div>
       </div>
       <div class="status-bar">
@@ -570,11 +570,11 @@
         <div class="config-label">🔗 URL do Google Apps Script:</div>
         <input type="text" class="config-input" id="scriptUrl" 
                placeholder="https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec"
-               value="https://script.google.com/macros/s/1_cvLJ29Pp7XV0Xq0sSzv7XfbDZYDOKYklIdluukd2qa9Wkn6sd3-Hlix/exec">
+               value="">
       </div>
       <div class="config-row">
         <div class="config-label">💾 Status da Conexão:</div>
-        <div class="config-value" id="connectionInfo">Aguardando teste...</div>
+        <div class="config-value" id="connectionInfo">Aguardando configuração...</div>
       </div>
       <div style="margin-top: 1rem;">
         <button class="btn btn-primary" onclick="testConnection()">
@@ -594,7 +594,7 @@
           <span class="stat-icon">📊</span>
         </div>
         <div class="stat-value" id="totalCount">-</div>
-        <div class="stat-change change-neutral">Carregando...</div>
+        <div class="stat-change change-neutral">Aguardando dados...</div>
       </div>
 
       <div class="stat-card">
@@ -656,7 +656,7 @@
           <tbody id="tableBody">
             <tr>
               <td colspan="6" class="text-center text-muted">
-                Carregando dados...
+                Configure a URL do Google Apps Script para carregar os dados...
               </td>
             </tr>
           </tbody>
@@ -677,7 +677,7 @@
   <script>
     // ================ 🎯 CONFIGURAÇÃO ================
     let CONFIG = {
-      scriptUrl: 'https://script.google.com/macros/s/1_cvLJ29Pp7XV0Xq0sSzv7XfbDZYDOKYklIdluukd2qa9Wkn6sd3-Hlix/exec',
+      scriptUrl: '',
       refreshInterval: 30000, // 30 segundos
       maxRetries: 3
     };
@@ -688,13 +688,15 @@
 
     // ================ 🚀 INICIALIZAÇÃO ================
     document.addEventListener('DOMContentLoaded', function() {
-      console.log('🦖 BetaZilla ARM Dashboard - Versão Standalone iniciando...');
+      console.log('🦖 BetaZilla ARM Dashboard - Versão Completa iniciando...');
       
       // Carregar configuração salva
       loadConfig();
       
-      // Testar conexão inicial
-      testConnection();
+      // Se tem URL configurada, testar conexão
+      if (CONFIG.scriptUrl) {
+        testConnection();
+      }
       
       // Configurar auto-refresh
       setupAutoRefresh();
@@ -737,7 +739,7 @@
       setTimeout(testConnection, 1000);
     }
 
-    // ================ 🔌 CONEXÃO ================
+    // ================ 🔌 CONEXÃO REAL ================
     async function testConnection() {
       const statusEl = document.getElementById('connectionStatus');
       const statusText = document.getElementById('statusText');
@@ -752,35 +754,99 @@
       try {
         console.log('🧪 Testando conexão com:', CONFIG.scriptUrl);
         
-        // Simular teste (já que o HTTP não funciona, vamos fingir que está ok)
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        // Primeiro testar ping
+        const pingUrl = `${CONFIG.scriptUrl}?action=ping&_t=${Date.now()}`;
+        const pingResponse = await fetch(pingUrl, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+          }
+        });
+
+        if (!pingResponse.ok) {
+          throw new Error(`HTTP ${pingResponse.status}: ${pingResponse.statusText}`);
+        }
+
+        const pingData = await pingResponse.json();
+        console.log('🏓 Ping response:', pingData);
+
+        if (!pingData.ok) {
+          throw new Error('Ping falhou: ' + (pingData.error || 'Resposta inválida'));
+        }
         
         // Sucesso
         isConnected = true;
-        statusText.textContent = 'Conectado (Simulado)';
+        statusText.textContent = 'Conectado';
         statusDot.className = 'status-dot status-online';
-        connectionInfo.textContent = 'Conexão simulada - OK';
+        connectionInfo.textContent = `Conectado - ${pingData.version || 'v2.0'} - ${pingData.timestamp ? new Date(pingData.timestamp).toLocaleTimeString() : 'agora'}`;
         
-        console.log('✅ Conexão simulada estabelecida');
+        console.log('✅ Conexão estabelecida:', pingData);
         
-        // Carregar dados simulados
-        loadSimulatedData();
+        // Carregar dados reais
+        await loadRealData();
         
       } catch (error) {
         console.error('❌ Erro na conexão:', error);
         
         isConnected = false;
-        statusText.textContent = 'Desconectado';
+        statusText.textContent = 'Erro';
         statusDot.className = 'status-dot status-offline';
         connectionInfo.textContent = `Erro: ${error.message}`;
         
-        showAlert('❌ Erro de conexão. Verifique a URL e tente novamente.', 'error');
+        showAlert('❌ Erro de conexão: ' + error.message, 'error');
+        
+        // Carregar dados simulados como fallback
+        loadSimulatedData();
+      }
+    }
+
+    // ================ 📊 CARREGAR DADOS REAIS ================
+    async function loadRealData() {
+      console.log('📊 Carregando dados reais...');
+      
+      try {
+        const dataUrl = `${CONFIG.scriptUrl}?action=getData&_t=${Date.now()}`;
+        
+        const response = await fetch(dataUrl, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        const result = await response.json();
+        console.log('📊 Dados recebidos:', result);
+
+        if (!result.ok) {
+          throw new Error('Erro na API: ' + (result.error || 'Dados inválidos'));
+        }
+
+        currentData = result.data || [];
+        
+        console.log('📊 Dados processados:', currentData.length, 'registros');
+        
+        updateStats(result.stats);
+        updateTable();
+        updateLastUpdateTime();
+        
+        showAlert(`✅ ${currentData.length} registros carregados com sucesso!`, 'success');
+        
+      } catch (error) {
+        console.error('❌ Erro ao carregar dados:', error);
+        showAlert('❌ Erro ao carregar dados: ' + error.message, 'error');
+        
+        // Fallback para dados simulados
+        loadSimulatedData();
       }
     }
 
     // ================ 📊 DADOS SIMULADOS ================
     function loadSimulatedData() {
-      // Dados de exemplo para demonstração
+      // Dados de exemplo para demonstração quando não há conexão
       currentData = [
         { id: 1, nome: 'PDV Centro', status: 'Integrado', integrado: 'Sim', ultimaModificacao: '2025-09-14 10:30' },
         { id: 2, nome: 'PDV Norte', status: 'Pendente', integrado: 'Não', ultimaModificacao: '2025-09-13 15:45' },
@@ -795,28 +861,35 @@
       updateTable();
       updateLastUpdateTime();
       
-      showAlert('✅ Dados carregados com sucesso! (Modo simulado)', 'success');
+      showAlert('⚠️ Usando dados simulados - Configure o Apps Script para dados reais', 'warning');
     }
 
     // ================ 📈 ESTATÍSTICAS ================
-    function updateStats() {
-      const total = currentData.length;
-      const integrados = currentData.filter(item => item.integrado === 'Sim').length;
-      const pendentes = currentData.filter(item => item.status === 'Pendente').length;
-      
-      const integradosPercent = total > 0 ? ((integrados / total) * 100).toFixed(1) : 0;
-      const pendentesPercent = total > 0 ? ((pendentes / total) * 100).toFixed(1) : 0;
+    function updateStats(stats) {
+      // Se stats foi passado como parâmetro, use-o; senão calcule
+      if (!stats) {
+        const total = currentData.length;
+        const integrados = currentData.filter(item => item.status === 'Integrado').length;
+        const pendentes = currentData.filter(item => item.status === 'Pendente').length;
+        
+        stats = {
+          total: total,
+          integrados: integrados,
+          pendentes: pendentes,
+          pctIntegracao: total > 0 ? Math.round((integrados / total) * 100) : 0
+        };
+      }
 
-      document.getElementById('totalCount').textContent = total;
-      document.getElementById('integradosCount').textContent = integrados;
-      document.getElementById('pendentesCount').textContent = pendentes;
-      document.getElementById('integradosPercent').textContent = `${integradosPercent}%`;
-      document.getElementById('pendentesPercent').textContent = `${pendentesPercent}%`;
+      document.getElementById('totalCount').textContent = stats.total;
+      document.getElementById('integradosCount').textContent = stats.integrados;
+      document.getElementById('pendentesCount').textContent = stats.pendentes;
+      document.getElementById('integradosPercent').textContent = `${stats.pctIntegracao}%`;
+      document.getElementById('pendentesPercent').textContent = `${Math.round(((stats.pendentes / stats.total) * 100) || 0)}%`;
 
       // Atualizar classes de mudança
       document.getElementById('integradosPercent').className = 
-        integradosPercent > 70 ? 'stat-change change-positive' : 
-        integradosPercent > 30 ? 'stat-change change-neutral' : 'stat-change change-negative';
+        stats.pctIntegracao > 70 ? 'stat-change change-positive' : 
+        stats.pctIntegracao > 30 ? 'stat-change change-neutral' : 'stat-change change-negative';
     }
 
     // ================ 📋 TABELA ================
@@ -844,8 +917,8 @@
             </span>
           </td>
           <td>
-            <span class="text-${item.integrado === 'Sim' ? 'success' : 'error'}">
-              ${item.integrado === 'Sim' ? '✅' : '❌'} ${item.integrado}
+            <span class="text-${item.integrado === 'Sim' || item.status === 'Integrado' ? 'success' : 'error'}">
+              ${item.integrado === 'Sim' || item.status === 'Integrado' ? '✅' : '❌'} ${item.integrado}
             </span>
           </td>
           <td class="font-mono text-muted">${item.ultimaModificacao}</td>
@@ -922,9 +995,10 @@
       console.log('🔄 Atualizando dados...');
       
       if (isConnected) {
-        loadSimulatedData();
+        loadRealData();
       } else {
-        console.warn('⚠️ Não conectado - pulando atualização');
+        console.warn('⚠️ Não conectado - usando dados simulados');
+        loadSimulatedData();
       }
     }
 
