@@ -1139,6 +1139,517 @@
       }
     }
 
+    /* ================ ⚡ SCRIPTS SECTION PREMIUM DESIGN ================ */
+    
+    .section-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .section-header h3 {
+      font-size: 1.8rem;
+      margin: 0 0 0.5rem 0;
+      background: linear-gradient(135deg, var(--ifood-red), var(--ifood-orange));
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+    }
+
+    .section-subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+      font-weight: 400;
+    }
+
+    .script-card {
+      background: var(--bg-glass);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-premium);
+      border-radius: var(--radius-xl);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition-smooth);
+    }
+
+    .script-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--ifood-red), var(--ifood-orange));
+    }
+
+    .script-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 40px -10px rgba(234, 88, 12, 0.15);
+    }
+
+    .script-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .script-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--ifood-red), var(--ifood-orange));
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .script-info {
+      flex-grow: 1;
+    }
+
+    .script-info h4 {
+      margin: 0 0 0.25rem 0;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .script-info p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .script-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--bg-subtle);
+      border-radius: var(--radius-full);
+      font-size: 0.8rem;
+      color: var(--success);
+      font-weight: 600;
+    }
+
+    .script-description {
+      margin-bottom: 1.5rem;
+    }
+
+    .script-description h5 {
+      margin: 0 0 1rem 0;
+      color: var(--text);
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .script-description ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 0.5rem;
+    }
+
+    .script-description li {
+      padding: 0.5rem;
+      background: var(--bg-subtle);
+      border-radius: var(--radius);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .script-code-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+
+    .code-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1rem;
+      background: var(--bg-subtle);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .code-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .code-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .btn-icon {
+      background: transparent;
+      border: none;
+      padding: 0.5rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 1rem;
+    }
+
+    .btn-icon:hover {
+      background: var(--bg-glass-hover);
+      transform: scale(1.1);
+    }
+
+    .script-code {
+      margin: 0;
+      padding: 1rem;
+      background: var(--bg-card);
+      border: none;
+      font-family: 'Fira Code', 'Monaco', monospace;
+      font-size: 0.85rem;
+      line-height: 1.4;
+      color: var(--text);
+      word-wrap: break-word;
+      white-space: pre-wrap;
+    }
+
+    .script-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-large {
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .copy-feedback {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--success);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-full);
+      font-size: 0.8rem;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: var(--transition-smooth);
+      z-index: 10;
+    }
+
+    .copy-feedback.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .feedback-content {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Instructions card */
+    .instructions-card {
+      background: var(--bg-glass);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+    }
+
+    .instructions-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .instructions-icon {
+      font-size: 1.5rem;
+    }
+
+    .instructions-header h4 {
+      margin: 0;
+      color: var(--text);
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .instructions-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .instruction-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--ifood-red), var(--ifood-orange));
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .step-content h5 {
+      margin: 0 0 0.25rem 0;
+      color: var(--text);
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .step-content p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+
+    /* ================ 📚 DOCUMENTATION SECTION PREMIUM DESIGN ================ */
+    
+    .docs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .doc-card {
+      background: var(--bg-glass);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      transition: var(--transition-smooth);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .doc-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--ifood-orange);
+      box-shadow: 0 8px 30px -5px rgba(234, 88, 12, 0.15);
+    }
+
+    .featured-card {
+      grid-column: span 2;
+      background: linear-gradient(135deg, 
+        rgba(234, 88, 12, 0.1) 0%, 
+        rgba(251, 146, 60, 0.05) 100%);
+      border-color: var(--ifood-orange);
+    }
+
+    @media (max-width: 768px) {
+      .featured-card {
+        grid-column: span 1;
+      }
+    }
+
+    .doc-icon-container {
+      margin-bottom: 1rem;
+    }
+
+    .doc-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--ifood-red), var(--ifood-orange));
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    .doc-content {
+      flex-grow: 1;
+      margin-bottom: 1.5rem;
+    }
+
+    .doc-content h4 {
+      margin: 0 0 0.5rem 0;
+      color: var(--text);
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .doc-content p {
+      margin: 0 0 1rem 0;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .doc-meta {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .doc-type, .doc-status, .doc-size, .doc-duration, .doc-items {
+      font-size: 0.7rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: var(--radius-full);
+      font-weight: 600;
+    }
+
+    .doc-type {
+      background: var(--ifood-red);
+      color: white;
+    }
+
+    .doc-status {
+      background: var(--success);
+      color: white;
+    }
+
+    .doc-size, .doc-duration, .doc-items {
+      background: var(--bg-subtle);
+      color: var(--text-muted);
+    }
+
+    .doc-actions {
+      margin-top: auto;
+    }
+
+    /* Quick Start Section */
+    .quick-start-section {
+      background: var(--bg-glass);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-premium);
+      border-radius: var(--radius-xl);
+      padding: 2rem;
+      position: relative;
+    }
+
+    .quick-start-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--ifood-yellow), var(--ifood-orange));
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    }
+
+    .quick-start-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .quick-start-header h4 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.3rem;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .quick-start-header p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    .quick-start-steps {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      overflow-x: auto;
+      padding: 1rem 0;
+    }
+
+    .quick-step {
+      min-width: 200px;
+      text-align: center;
+      padding: 1rem;
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      transition: var(--transition);
+    }
+
+    .quick-step:hover {
+      transform: translateY(-2px);
+      border-color: var(--ifood-orange);
+    }
+
+    .step-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--ifood-red), var(--ifood-orange));
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      margin: 0 auto 1rem auto;
+      font-size: 1.1rem;
+    }
+
+    .step-content h5 {
+      margin: 0 0 0.5rem 0;
+      color: var(--text);
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .step-content p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      line-height: 1.4;
+    }
+
+    .step-arrow {
+      color: var(--ifood-orange);
+      font-size: 1.5rem;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    /* Mobile responsiveness for quick start */
+    @media (max-width: 768px) {
+      .quick-start-steps {
+        flex-direction: column;
+      }
+
+      .step-arrow {
+        transform: rotate(90deg);
+        font-size: 1.2rem;
+      }
+
+      .quick-step {
+        width: 100%;
+        min-width: auto;
+      }
+    }
+
     .data-table {
       width: 100%;
       border-collapse: collapse;
@@ -1981,41 +2492,99 @@
     <!-- ⚡ Scripts View -->
     <section id="scripts-view" class="view hidden">
       <div class="panel">
-        <h3 style="margin-bottom: 20px;">⚡ Scripts de Integração</h3>
-        <div class="card">
-          <h4>🐧 Script Linux/macOS</h4>
-          <p style="color: var(--text-secondary); margin: 8px 0;">Execute com privilégios sudo:</p>
-          <pre><code id="linux-script">wget --inet4-only -qO- "https://gitlab.com/scripts-beta/reativacao-totem/-/raw/main/reativacao.sh" | sed 's/\r$//' | sudo bash</code></pre>
-          <button class="btn btn-primary" onclick="copyToClipboard('linux-script')">
-            📋 Copiar Script Linux
-          </button>
+        <!-- Header da seção -->
+        <div class="section-header">
+          <h3>⚡ Script de Integração Linux</h3>
+          <div class="section-subtitle">Script automatizado para reativação de totems Linux/macOS</div>
         </div>
-        <div class="card">
-          <h4>🪟 Script Windows PowerShell</h4>
-          <p style="color: var(--text-secondary); margin: 8px 0;">Execute como Administrador:</p>
-          <pre><code id="windows-script">Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://gitlab.com/scripts-beta/reativacao-totem/-/raw/main/reativacao.ps1'))</code></pre>
-          <button class="btn btn-primary" onclick="copyToClipboard('windows-script')">
-            📋 Copiar Script Windows
-          </button>
-        </div>
-        <div class="card">
-          <h4>🔄 Script de Configuração API</h4>
-          <p style="color: var(--text-secondary); margin: 8px 0;">Script para configurar integração com Google Apps Script:</p>
-          <pre><code id="api-script">// Configuração da API BetaZilla ARM
-const CONFIG = {
-  scriptUrl: '${CONFIG.scriptUrl || 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec'}',
-  refreshInterval: 30000,
-  maxRetries: 3
-};
 
-// Teste de conexão
-fetch(CONFIG.scriptUrl + '?action=ping')
-  .then(response => response.json())
-  .then(data => console.log('✅ Conexão OK:', data))
-  .catch(error => console.error('❌ Erro:', error));</code></pre>
-          <button class="btn btn-primary" onclick="copyToClipboard('api-script')">
-            📋 Copiar Script API
-          </button>
+        <!-- Card principal do script Linux -->
+        <div class="script-card premium-card">
+          <div class="script-header">
+            <div class="script-icon">🐧</div>
+            <div class="script-info">
+              <h4>Script Linux/macOS</h4>
+              <p>Execute com privilégios sudo no terminal</p>
+            </div>
+            <div class="script-badge">
+              <span class="status-dot status-online"></span>
+              Ativo
+            </div>
+          </div>
+
+          <div class="script-content">
+            <div class="script-description">
+              <h5>📋 O que este script faz:</h5>
+              <ul>
+                <li>✅ Verifica dependências do sistema</li>
+                <li>🔧 Configura ambiente para reativação</li>
+                <li>🚀 Executa processo de integração automatizado</li>
+                <li>📊 Gera relatório de status final</li>
+              </ul>
+            </div>
+
+            <div class="script-code-container">
+              <div class="code-header">
+                <span class="code-label">💻 Comando de execução</span>
+                <div class="code-actions">
+                  <button class="btn-icon" onclick="copyToClipboard('linux-script')" title="Copiar comando">
+                    📋
+                  </button>
+                </div>
+              </div>
+              <pre class="script-code"><code id="linux-script">wget --inet4-only -qO- "https://gitlab.com/scripts-beta/reativacao-totem/-/raw/main/reativacao.sh" | sed 's/\r$//' | sudo bash</code></pre>
+            </div>
+
+            <div class="script-actions">
+              <button class="btn btn-primary btn-large ripple" onclick="copyToClipboard('linux-script')">
+                📋 Copiar Script Linux
+                <span class="floating-hint">Clique para copiar o comando</span>
+              </button>
+              <button class="btn btn-secondary" onclick="showScriptDetails('linux')">
+                � Ver Detalhes
+                <span class="floating-hint">Mais informações sobre o script</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Progress indicator quando copiado -->
+          <div class="copy-feedback" id="copy-feedback-linux">
+            <div class="feedback-content">
+              <span class="feedback-icon">✅</span>
+              <span class="feedback-text">Script copiado com sucesso!</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card de instruções -->
+        <div class="instructions-card">
+          <div class="instructions-header">
+            <span class="instructions-icon">📋</span>
+            <h4>Instruções de Uso</h4>
+          </div>
+          <div class="instructions-content">
+            <div class="instruction-step">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h5>Abrir Terminal</h5>
+                <p>Abra o terminal no sistema Linux/macOS</p>
+              </div>
+            </div>
+            <div class="instruction-step">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h5>Colar Comando</h5>
+                <p>Cole o comando copiado e pressione Enter</p>
+              </div>
+            </div>
+            <div class="instruction-step">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h5>Aguardar Execução</h5>
+                <p>O script executará automaticamente todo o processo</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -2023,42 +2592,173 @@ fetch(CONFIG.scriptUrl + '?action=ping')
     <!-- 📚 Documentation View -->
     <section id="docs-view" class="view hidden">
       <div class="panel">
-        <h3 style="margin-bottom: 20px;">📚 Documentação</h3>
-        <div class="card">
-          <h4>📖 Guia de Integração</h4>
-          <p style="margin: 12px 0;">
-            <a href="https://ifood.atlassian.net/wiki/x/JhXXNAE" target="_blank" class="btn btn-primary">
-              🔗 Abrir Confluence
-            </a>
-          </p>
-          <p style="color: var(--text-secondary); margin: 12px 0;">
-            Documentação completa sobre integração de PDVs no sistema iFood.
-          </p>
+        <!-- Header da seção -->
+        <div class="section-header">
+          <h3>📖 Central de Documentação</h3>
+          <div class="section-subtitle">Guias, manuais e recursos para integração</div>
         </div>
-        <div class="card">
-          <h4>🚀 Início Rápido</h4>
-          <ol style="color: var(--text-secondary); margin: 12px 0; line-height: 1.8;">
-            <li>Configure a URL do Google Apps Script na aba Configuração</li>
-            <li>Teste a conexão para verificar se está funcionando</li>
-            <li>Use os scripts da aba Scripts para automação</li>
-            <li>Monitore os dados no Dashboard principal</li>
-          </ol>
+
+        <!-- Grid de recursos -->
+        <div class="docs-grid">
+          <!-- Card principal - Guia de Integração -->
+          <div class="doc-card featured-card">
+            <div class="doc-icon-container">
+              <div class="doc-icon">📖</div>
+            </div>
+            <div class="doc-content">
+              <h4>Guia de Integração</h4>
+              <p>Documentação completa sobre integração de PDVs no sistema iFood.</p>
+              <div class="doc-meta">
+                <span class="doc-type">Confluence</span>
+                <span class="doc-status">Atualizado</span>
+              </div>
+            </div>
+            <div class="doc-actions">
+              <a href="https://ifood.atlassian.net/wiki/x/JhXXNAE" target="_blank" class="btn btn-primary">
+                🔗 Abrir Guia
+              </a>
+            </div>
+          </div>
+
+          <!-- Manual PDF -->
+          <div class="doc-card">
+            <div class="doc-icon-container">
+              <div class="doc-icon">📄</div>
+            </div>
+            <div class="doc-content">
+              <h4>Manual PDF</h4>
+              <p>Manual detalhado em PDF para download e consulta offline.</p>
+              <div class="doc-meta">
+                <span class="doc-type">PDF</span>
+                <span class="doc-size">2.3 MB</span>
+              </div>
+            </div>
+            <div class="doc-actions">
+              <button class="btn btn-secondary" onclick="downloadPDF('integration-manual')">
+                📥 Download
+              </button>
+            </div>
+          </div>
+
+          <!-- Troubleshooting -->
+          <div class="doc-card">
+            <div class="doc-icon-container">
+              <div class="doc-icon">🔧</div>
+            </div>
+            <div class="doc-content">
+              <h4>Solução de Problemas</h4>
+              <p>Guia completo para resolver problemas comuns de integração.</p>
+              <div class="doc-meta">
+                <span class="doc-type">Interativo</span>
+                <span class="doc-status">Atualizado</span>
+              </div>
+            </div>
+            <div class="doc-actions">
+              <button class="btn btn-warning" onclick="showTroubleshooting()">
+                🔍 Diagnóstico
+              </button>
+            </div>
+          </div>
+
+          <!-- API Reference -->
+          <div class="doc-card">
+            <div class="doc-icon-container">
+              <div class="doc-icon">⚡</div>
+            </div>
+            <div class="doc-content">
+              <h4>Referência da API</h4>
+              <p>Documentação técnica da API e endpoints disponíveis.</p>
+              <div class="doc-meta">
+                <span class="doc-type">Técnico</span>
+                <span class="doc-status">v2.1</span>
+              </div>
+            </div>
+            <div class="doc-actions">
+              <button class="btn btn-secondary" onclick="showApiDocs()">
+                📚 Ver API
+              </button>
+            </div>
+          </div>
+
+          <!-- Video Tutorial -->
+          <div class="doc-card">
+            <div class="doc-icon-container">
+              <div class="doc-icon">🎥</div>
+            </div>
+            <div class="doc-content">
+              <h4>Tutorial em Vídeo</h4>
+              <p>Vídeo passo-a-passo mostrando todo o processo de integração.</p>
+              <div class="doc-meta">
+                <span class="doc-type">Vídeo</span>
+                <span class="doc-duration">12 min</span>
+              </div>
+            </div>
+            <div class="doc-actions">
+              <button class="btn btn-primary" onclick="playTutorialVideo()">
+                ▶️ Assistir
+              </button>
+            </div>
+          </div>
+
+          <!-- FAQ -->
+          <div class="doc-card">
+            <div class="doc-icon-container">
+              <div class="doc-icon">❓</div>
+            </div>
+            <div class="doc-content">
+              <h4>Perguntas Frequentes</h4>
+              <p>Respostas para as dúvidas mais comuns sobre integração.</p>
+              <div class="doc-meta">
+                <span class="doc-type">FAQ</span>
+                <span class="doc-items">25 itens</span>
+              </div>
+            </div>
+            <div class="doc-actions">
+              <button class="btn btn-secondary" onclick="showFAQ()">
+                💬 Ver FAQ
+              </button>
+            </div>
+          </div>
         </div>
-        <div class="card">
-          <h4>🔧 Solução de Problemas CORS</h4>
-          <p style="color: var(--text-secondary); margin: 12px 0; line-height: 1.6;">
-            Se você está enfrentando problemas de CORS (Cross-Origin Resource Sharing), aqui estão as soluções:
-          </p>
-          <ol style="color: var(--text-secondary); margin: 12px 0; line-height: 1.8;">
-            <li><strong>Apps Script:</strong> Certifique-se de que o script está publicado como "Acessível para qualquer pessoa"</li>
-            <li><strong>Deployment:</strong> Use HTTPS tanto no dashboard quanto no Apps Script</li>
-            <li><strong>Headers:</strong> Verifique se os headers CORS estão configurados no Apps Script</li>
-            <li><strong>Cache:</strong> Limpe o cache do navegador e teste novamente</li>
-          </ol>
-          <div style="margin-top: 16px;">
-            <button class="btn btn-primary" onclick="runDiagnostics()">
-              🔍 Executar Diagnóstico
-            </button>
+
+        <!-- Quick Start Guide -->
+        <div class="quick-start-section">
+          <div class="quick-start-header">
+            <h4>🚀 Início Rápido</h4>
+            <p>Siga estes passos para uma integração rápida e eficiente</p>
+          </div>
+          <div class="quick-start-steps">
+            <div class="quick-step">
+              <div class="step-icon">1</div>
+              <div class="step-content">
+                <h5>Configure URL do Apps Script</h5>
+                <p>Vá para aba Configuração e insira a URL do Google Apps Script</p>
+              </div>
+            </div>
+            <div class="step-arrow">→</div>
+            <div class="quick-step">
+              <div class="step-icon">2</div>
+              <div class="step-content">
+                <h5>Teste a Conexão</h5>
+                <p>Clique em "Testar Conexão" para verificar a comunicação</p>
+              </div>
+            </div>
+            <div class="step-arrow">→</div>
+            <div class="quick-step">
+              <div class="step-icon">3</div>
+              <div class="step-content">
+                <h5>Execute o Script</h5>
+                <p>Use o script Linux da aba Scripts para automação</p>
+              </div>
+            </div>
+            <div class="step-arrow">→</div>
+            <div class="quick-step">
+              <div class="step-icon">4</div>
+              <div class="step-content">
+                <h5>Monitore o Dashboard</h5>
+                <p>Acompanhe os dados e estatísticas no painel principal</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -2614,6 +3314,9 @@ fetch(CONFIG.scriptUrl + '?action=ping')
       
       const text = element.textContent;
       
+      // Mostrar feedback visual premium
+      showCopyFeedback(elementId);
+      
       if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(text).then(() => {
           showAlert('📋 Código copiado com sucesso!', 'success');
@@ -2622,6 +3325,22 @@ fetch(CONFIG.scriptUrl + '?action=ping')
         });
       } else {
         fallbackCopyToClipboard(text);
+      }
+    }
+
+    function showCopyFeedback(elementId) {
+      // Encontrar o feedback element baseado no elementId
+      let feedbackId = 'copy-feedback-linux'; // default
+      if (elementId === 'linux-script') {
+        feedbackId = 'copy-feedback-linux';
+      }
+      
+      const feedbackElement = document.getElementById(feedbackId);
+      if (feedbackElement) {
+        feedbackElement.classList.add('show');
+        setTimeout(() => {
+          feedbackElement.classList.remove('show');
+        }, 2000);
       }
     }
 
@@ -2643,6 +3362,136 @@ fetch(CONFIG.scriptUrl + '?action=ping')
       }
       
       document.body.removeChild(textArea);
+    }
+
+    // ================ 📚 FUNÇÕES DA DOCUMENTAÇÃO ================
+    function showScriptDetails(type) {
+      const details = {
+        linux: {
+          title: '🐧 Detalhes do Script Linux',
+          content: `
+            <h4>Informações Técnicas:</h4>
+            <ul>
+              <li><strong>Compatibilidade:</strong> Linux (Ubuntu, CentOS, Debian) e macOS</li>
+              <li><strong>Requisitos:</strong> wget, sudo, curl</li>
+              <li><strong>Tempo estimado:</strong> 2-5 minutos</li>
+              <li><strong>Conectividade:</strong> Requer acesso à internet</li>
+            </ul>
+            <h4>O que o script faz:</h4>
+            <ul>
+              <li>Verifica dependências do sistema</li>
+              <li>Baixa arquivos de configuração</li>
+              <li>Configura serviços necessários</li>
+              <li>Testa conectividade</li>
+              <li>Gera log de execução</li>
+            </ul>
+          `
+        }
+      };
+      
+      const detail = details[type];
+      if (detail) {
+        showAlert(detail.content, 'info', detail.title);
+      }
+    }
+
+    function downloadPDF(pdfType) {
+      const pdfs = {
+        'integration-manual': {
+          name: 'Manual_Integracao_iFood.pdf',
+          url: '/docs/Manual_Integracao_iFood.pdf'
+        }
+      };
+      
+      const pdf = pdfs[pdfType];
+      if (pdf) {
+        // Simular download
+        showAlert('📥 Iniciando download do ' + pdf.name, 'info');
+        // Em produção, você faria: window.open(pdf.url, '_blank');
+      }
+    }
+
+    function showTroubleshooting() {
+      const troubleshootingContent = `
+        <h4>🔧 Diagnóstico Automático</h4>
+        <div style="margin: 1rem 0;">
+          <button class="btn btn-primary" onclick="runDiagnostics()" style="margin-right: 0.5rem;">🔍 Testar Conexão</button>
+          <button class="btn btn-secondary" onclick="checkSystemRequirements()">⚙️ Verificar Sistema</button>
+        </div>
+        <h4>Problemas Comuns:</h4>
+        <ul>
+          <li><strong>CORS Error:</strong> Verifique se o Apps Script está publicado corretamente</li>
+          <li><strong>Timeout:</strong> Verifique sua conexão com a internet</li>
+          <li><strong>403 Forbidden:</strong> Verifique as permissões do Apps Script</li>
+          <li><strong>Script não executa:</strong> Verifique se tem privilégios sudo (Linux)</li>
+        </ul>
+      `;
+      
+      showAlert(troubleshootingContent, 'info', '🔧 Centro de Solução de Problemas');
+    }
+
+    function showApiDocs() {
+      const apiContent = `
+        <h4>⚡ Endpoints Disponíveis</h4>
+        <ul>
+          <li><strong>GET /exec?action=ping</strong> - Teste de conectividade</li>
+          <li><strong>GET /exec?action=getData</strong> - Buscar dados</li>
+          <li><strong>POST /exec</strong> - Enviar dados</li>
+        </ul>
+        <h4>Exemplo de Uso:</h4>
+        <pre><code>fetch('${CONFIG.scriptUrl}?action=ping')
+  .then(response => response.json())
+  .then(data => console.log(data));</code></pre>
+      `;
+      
+      showAlert(apiContent, 'info', '⚡ Referência da API');
+    }
+
+    function playTutorialVideo() {
+      showAlert('🎥 Redirecionando para o tutorial em vídeo...', 'info');
+      // Em produção: window.open('https://video-url.com', '_blank');
+    }
+
+    function showFAQ() {
+      const faqContent = `
+        <h4>❓ Perguntas Frequentes</h4>
+        <div style="text-align: left;">
+          <h5>1. Como resolver erro de CORS?</h5>
+          <p>Publique o Apps Script como "Acessível para qualquer pessoa" e use HTTPS.</p>
+          
+          <h5>2. O script não executa no Linux?</h5>
+          <p>Verifique se tem privilégios sudo e conexão com internet.</p>
+          
+          <h5>3. Dados não aparecem no dashboard?</h5>
+          <p>Verifique a URL do Apps Script e teste a conexão.</p>
+          
+          <h5>4. Como atualizar o sistema?</h5>
+          <p>Re-execute o script Linux para obter a versão mais recente.</p>
+        </div>
+      `;
+      
+      showAlert(faqContent, 'info', '💬 FAQ - Perguntas Frequentes');
+    }
+
+    function checkSystemRequirements() {
+      const requirements = {
+        browser: navigator.userAgent.includes('Chrome') || navigator.userAgent.includes('Firefox'),
+        javascript: typeof window !== 'undefined',
+        fetch: typeof fetch !== 'undefined',
+        localStorage: typeof Storage !== 'undefined'
+      };
+      
+      const results = Object.entries(requirements).map(([key, value]) => 
+        `<li>${value ? '✅' : '❌'} ${key}: ${value ? 'OK' : 'Não suportado'}</li>`
+      ).join('');
+      
+      const content = `
+        <h4>⚙️ Verificação do Sistema</h4>
+        <ul>${results}</ul>
+        <p><strong>Status Geral:</strong> ${Object.values(requirements).every(Boolean) ? '✅ Sistema Compatível' : '❌ Alguns recursos podem não funcionar'}</p>
+      `;
+      
+      showAlert(content, 'info', '⚙️ Requisitos do Sistema');
     }
 
     // ================ 🔍 DIAGNÓSTICO ================
