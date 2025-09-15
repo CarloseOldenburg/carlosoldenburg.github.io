@@ -2902,119 +2902,180 @@
       try {
         console.log('🧪 Testando conexão com:', CONFIG.scriptUrl);
         
-        // Primeiro testar ping - usando mode 'no-cors' para evitar problemas CORS
+        // Primeiro testar ping via fetch
         const pingUrl = `${CONFIG.scriptUrl}?action=ping&_t=${Date.now()}`;
-        const pingResponse = await fetch(pingUrl, {
-          method: 'GET',
-          mode: 'cors', // Usar CORS mas com tratamento de erro
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          cache: 'no-cache'
-        });
+        try {
+          const pingResponse = await fetch(pingUrl, {
+            method: 'GET',
+            mode: 'cors',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            cache: 'no-cache'
+          });
 
-        if (!pingResponse.ok) {
-          throw new Error(`HTTP ${pingResponse.status}: ${pingResponse.statusText}`);
+          if (!pingResponse.ok) {
+            throw new Error(`HTTP ${pingResponse.status}: ${pingResponse.statusText}`);
+          }
+
+          const pingData = await pingResponse.json();
+          console.log('🏓 Ping response (fetch):', pingData);
+
+          if (!pingData.ok) {
+            throw new Error('Ping falhou: ' + (pingData.error || 'Resposta inválida'));
+          }
+
+          // Sucesso com fetch
+          isConnected = true;
+          statusText.textContent = 'Conectado';
+          statusDot.className = 'status-dot status-online';
+          connectionInfo.textContent = `Conectado - ${pingData.version || 'v2.0'} - ${pingData.timestamp ? new Date(pingData.timestamp).toLocaleTimeString() : 'agora'}`;
+          console.log('✅ Conexão estabelecida (fetch):', pingData);
+
+          await loadRealData();
+          updateQuickInfo();
+          return;
+        } catch (fetchErr) {
+          console.warn('⚠️ fetch falhou, tentando JSONP como fallback:', fetchErr);
+          // tentar JSONP
+          const pingData = await tryJsonpPing(CONFIG.scriptUrl);
+          if (pingData && pingData.ok) {
+            isConnected = true;
+            statusText.textContent = 'Conectado (JSONP)';
+            statusDot.className = 'status-dot status-online';
+            connectionInfo.textContent = `Conectado - ${pingData.version || 'v2.0'} - ${pingData.timestamp ? new Date(pingData.timestamp).toLocaleTimeString() : 'agora'}`;
+            console.log('✅ Conexão estabelecida (JSONP):', pingData);
+
+            // carregar dados via JSONP
+            await loadRealData({jsonp: true});
+            updateQuickInfo();
+            return;
+          }
+          throw fetchErr;
         }
 
-        const pingData = await pingResponse.json();
-        console.log('🏓 Ping response:', pingData);
-
-        if (!pingData.ok) {
-          throw new Error('Ping falhou: ' + (pingData.error || 'Resposta inválida'));
-        }
-        
-        // Sucesso
-        isConnected = true;
-        statusText.textContent = 'Conectado';
-        statusDot.className = 'status-dot status-online';
-        connectionInfo.textContent = `Conectado - ${pingData.version || 'v2.0'} - ${pingData.timestamp ? new Date(pingData.timestamp).toLocaleTimeString() : 'agora'}`;
-        
-        console.log('✅ Conexão estabelecida:', pingData);
-        
-        // Carregar dados reais
-        await loadRealData();
-        
-        // Atualizar quick info
-        updateQuickInfo();
-        
       } catch (error) {
         console.error('❌ Erro na conexão:', error);
-        
+
         isConnected = false;
         statusText.textContent = 'Erro';
         statusDot.className = 'status-dot status-offline';
         connectionInfo.textContent = `Erro: ${error.message}`;
-        
+
         showAlert('❌ Erro de conexão: ' + error.message, 'error');
-        
+
         // Carregar dados simulados como fallback
         loadSimulatedData();
       }
     }
 
-    // ================ 📊 CARREGAR DADOS REAIS ================
+    // ================ 📊 CARREGAR DADOS REAIS (COM JSONP FALLBACK) ================
     async function loadRealData() {
       console.log('📊 Carregando dados reais...');
-      
+
       try {
         const dataUrl = `${CONFIG.scriptUrl}?action=getData&_t=${Date.now()}`;
-        
-        const response = await fetch(dataUrl, {
-          method: 'GET',
-          mode: 'cors',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          cache: 'no-cache'
-        });
 
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        // Primeiro tentamos fetch normal (CORS). Se falhar, tentamos JSONP.
+        try {
+          const response = await fetch(dataUrl, {
+            method: 'GET',
+            mode: 'cors',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            cache: 'no-cache'
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+
+          const result = await response.json();
+          console.log('📊 Dados recebidos (fetch):', result);
+
+          if (!result || !result.ok) {
+            throw new Error('Erro na API: ' + (result && result.error ? result.error : 'Dados inválidos'));
+          }
+
+          // Aplicar dados ao dashboard
+          applyDataToDashboard(result);
+          return;
+        } catch (fetchErr) {
+          console.warn('⚠️ fetch getData falhou (provável CORS). Tentando JSONP...', fetchErr);
+          // tentar JSONP
+          const jsonpResult = await tryJsonpGetData(CONFIG.scriptUrl).catch(e => {
+            console.warn('⚠️ JSONP também falhou:', e);
+            return null;
+          });
+
+          if (jsonpResult) {
+            console.log('📊 Dados recebidos (JSONP):', jsonpResult);
+            applyDataToDashboard(jsonpResult);
+            return;
+          }
+
+          throw fetchErr;
         }
 
-        const result = await response.json();
-        console.log('📊 Dados recebidos:', result);
-
-        if (!result || !result.ok) {
-          throw new Error('Erro na API: ' + (result?.error || 'Dados inválidos'));
-        }
-
-        // Validar e processar dados com verificações de segurança
-        const rawData = result.data || [];
-        currentData = rawData.filter(item => item && typeof item === 'object');
-        
-        // Log detalhado para debug
-        console.log('📊 Dados processados:', {
-          total: currentData.length,
-          amostra: currentData.slice(0, 3),
-          statsRecebidas: result.stats
-        });
-        
-        // Atualizar interface com dados validados
-        if (result.stats && typeof result.stats === 'object') {
-          updateStats(result.stats);
-        } else {
-          // Calcular stats se não foram recebidas
-          updateStats();
-        }
-        
-        updateTable();
-        updateLastUpdateTime();
-        updateQuickInfo();
-        
-        showAlert(`✅ ${currentData.length} registros carregados com sucesso!`, 'success');
-        
       } catch (error) {
         console.error('❌ Erro ao carregar dados:', error);
         showAlert(`❌ Erro ao carregar dados: ${error.message}`, 'error');
-        
+
         // Fallback para dados simulados
         loadSimulatedData();
         updateQuickInfo();
       }
+    }
+
+    // Reaproveitável: aplica payload ao dashboard
+    function applyDataToDashboard(payload) {
+      try {
+        if (!payload) throw new Error('Payload vazio');
+        const rawData = payload.data || [];
+        const stats = payload.stats || null;
+
+        currentData = Array.isArray(rawData) ? rawData.filter(i => i && typeof i === 'object') : [];
+
+        if (stats && typeof stats === 'object') {
+          updateStats(stats);
+        } else {
+          updateStats();
+        }
+
+        updateTable();
+        updateLastUpdateTime();
+        updateQuickInfo();
+
+        showAlert(`✅ ${currentData.length} registros carregados com sucesso!`, 'success');
+      } catch (err) {
+        console.error('Erro ao aplicar dados no dashboard:', err);
+      }
+    }
+
+    // JSONP helpers — usam callback global temporário + tag <script>
+    function tryJsonpPing(baseUrl) {
+      return new Promise((resolve, reject) => {
+        const callbackName = 'jsonp_ping_cb_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+        window[callbackName] = function(data) { try { resolve(data); } finally { delete window[callbackName]; script.remove(); } };
+        const script = document.createElement('script');
+        script.src = `${baseUrl}?action=ping&callback=${callbackName}&_t=${Date.now()}`;
+        script.onerror = function() { try { delete window[callbackName]; script.remove(); } catch (e) {} ; reject(new Error('JSONP request failed')); };
+        document.body.appendChild(script);
+      });
+    }
+
+    function tryJsonpGetData(baseUrl) {
+      return new Promise((resolve, reject) => {
+        const callbackName = 'jsonp_getdata_cb_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+        window[callbackName] = function(data) { try { resolve(data); } finally { delete window[callbackName]; script.remove(); } };
+        const script = document.createElement('script');
+        script.src = `${baseUrl}?action=getData&callback=${callbackName}&_t=${Date.now()}`;
+        script.onerror = function() { try { delete window[callbackName]; script.remove(); } catch (e) {} ; reject(new Error('JSONP request failed')); };
+        document.body.appendChild(script);
+      });
     }
 
     // ================ 📊 DADOS SIMULADOS ================
