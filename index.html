@@ -288,6 +288,48 @@
       flex-wrap: wrap;
     }
 
+    /* ================ 🥚 EASTER EGG - BETAZILLA ================ */
+    .egg-btn {
+      position: absolute;
+      top: 1rem;
+      left: 1.25rem;
+      background: transparent;
+      border: none;
+      font-size: 1.25rem;
+      cursor: pointer;
+      opacity: 0.9;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+      z-index: 1500;
+    }
+
+    .egg-btn:hover { transform: scale(1.06); opacity: 1; }
+
+    .egg-modal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.6);
+      z-index: 2000;
+      padding: 1.5rem;
+    }
+
+    .egg-modal.hidden { display: none; }
+
+    .egg-content {
+      background: linear-gradient(180deg, rgba(18,18,20,0.98), rgba(30,30,34,0.98));
+      border: 1px solid rgba(234,88,12,0.12);
+      padding: 1.25rem;
+      border-radius: 12px;
+      width: 480px;
+      max-width: 100%;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+
+    .egg-header { display:flex; justify-content:space-between; align-items:center; gap:1rem; }
+    .egg-body { margin-top: 1rem; color: var(--text-muted); }
+
     .connection-status {
       display: flex;
       align-items: center;
@@ -2203,6 +2245,7 @@
           <p class="subtitle">Dashboard Integrações PDV - Versão Completa</p>
         </div>
       </div>
+      <button class="egg-btn" id="eggBtn" title="Segredo BetaZilla">✨</button>
       <div class="status-bar">
         <div class="connection-status" id="connectionStatus">
           <div class="status-dot status-loading"></div>
@@ -2214,6 +2257,21 @@
       </div>
     </div>
   </header>
+
+  <!-- Easter Egg Modal -->
+  <div id="eggModal" class="egg-modal hidden">
+    <div class="egg-content">
+      <div class="egg-header">
+        <h3>🦖 Betazilla Mode</h3>
+        <button class="btn btn-secondary" onclick="closeEgg()">Fechar</button>
+      </div>
+      <div class="egg-body">
+        <p>Você encontrou o easter egg! BetaZilla diz: "ROAR!"</p>
+        <p>Versão do Dashboard: <strong>2.0-final</strong></p>
+        <p>Truque: pressione <em>Shift</em> 3x no logo para ativar o modo secreto.</p>
+      </div>
+    </div>
+  </div>
 
   <!-- ================ 📊 MAIN CONTENT ================ -->
   <main class="main-content">
@@ -2237,9 +2295,7 @@
         <span>
           Última atualização: <span id="last-update">--:--</span>
         </span>
-        <button class="btn btn-primary" id="refresh-btn">
-          <span>🔄</span> Atualizar
-        </button>
+        <span class="refresh-indicator" title="Atualização automática">⏱️</span>
       </div>
     </nav>
 
@@ -2343,16 +2399,20 @@
           <div class="config-label">💾 Status da Conexão:</div>
           <div class="config-value" id="connectionInfo">Aguardando configuração...</div>
         </div>
-        <div style="margin-top: 1rem;">
-          <button class="btn btn-primary" onclick="testConnection()">
-            🧪 Testar Conexão
-        </button>
-        <button class="btn btn-secondary" onclick="saveConfig()">
-          💾 Salvar Configuração
-          </button>
-          <button class="btn btn-secondary" onclick="saveConfig()">
-            💾 Salvar Configuração
-          </button>
+        <div style="margin-top: 1rem; display:flex; gap:0.75rem; align-items:center; flex-wrap:wrap;">
+          <div style="display:flex; gap:0.5rem;">
+            <button class="btn btn-primary" onclick="testConnection()">
+              🧪 Testar Conexão
+            </button>
+            <button class="btn btn-success" onclick="saveConfig()">
+              💾 Salvar
+            </button>
+          </div>
+          <div style="margin-left: auto;">
+            <button class="btn btn-secondary" onclick="refreshData()" title="Forçar atualização dos dados">
+              🔄 Atualizar
+            </button>
+          </div>
         </div>
         
         <!-- Stats Grid -->
@@ -3911,6 +3971,67 @@
       }
     }
 
+    // ================ 🎛️ EASTER EGG HELPERS ================
+    function openEgg() {
+      const modal = document.getElementById('eggModal');
+      if (!modal) return;
+      modal.classList.remove('hidden');
+      // small visual hint
+      const content = modal.querySelector('.egg-content');
+      if (content) {
+        content.animate([
+          { transform: 'translateY(-8px) scale(.99)', opacity: 0 },
+          { transform: 'translateY(0) scale(1)', opacity: 1 }
+        ], { duration: 260, easing: 'cubic-bezier(.2,.8,.2,1)' });
+      }
+    }
+
+    function closeEgg() {
+      const modal = document.getElementById('eggModal');
+      if (!modal) return;
+      modal.classList.add('hidden');
+    }
+
+    function setupEggInteractions() {
+      const btn = document.getElementById('eggBtn');
+      const modal = document.getElementById('eggModal');
+      let shiftClickCount = 0;
+      let shiftTimer = null;
+
+      if (btn) {
+        btn.addEventListener('click', function (e) {
+          // If user holds Shift while clicking, count up to 3 clicks within 1.5s
+          if (e.shiftKey) {
+            shiftClickCount++;
+            if (shiftTimer) clearTimeout(shiftTimer);
+            shiftTimer = setTimeout(() => { shiftClickCount = 0; shiftTimer = null; }, 1500);
+            // subtle pulse
+            try { btn.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.06)' }, { transform: 'scale(1)' }], { duration: 200 }); } catch (er) {}
+            if (shiftClickCount >= 3) {
+              shiftClickCount = 0;
+              if (modal) openEgg();
+            }
+            return;
+          }
+
+          // Regular click toggles the modal for discoverability
+          if (modal) {
+            if (modal.classList.contains('hidden')) openEgg(); else closeEgg();
+          }
+        });
+      }
+
+      // Close when clicking the overlay or pressing Escape
+      if (modal) {
+        modal.addEventListener('click', (ev) => {
+          if (ev.target === modal) closeEgg();
+        });
+        document.addEventListener('keydown', (ev) => {
+          if (ev.key === 'Escape' && !modal.classList.contains('hidden')) closeEgg();
+        });
+      }
+    }
+
     // ================ 🎛️ EXPOSIÇÃO GLOBAL ================
     window.testConnection = testConnection;
     window.saveConfig = saveConfig;
@@ -3922,6 +4043,12 @@
     window.copyToClipboard = copyToClipboard;
     window.runDiagnostics = runDiagnostics;
     window.updateQuickInfo = updateQuickInfo;
+    // Easter-egg functions (exposed for manual/debugging)
+    window.openEgg = openEgg;
+    window.closeEgg = closeEgg;
+
+    // Inicializar interações do easter-egg
+    try { setupEggInteractions(); } catch (err) { console.warn('Egg setup falhou', err); }
 
     console.log('🦖 BetaZilla ARM Dashboard carregado com sucesso!');
   </script>
