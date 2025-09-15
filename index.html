@@ -12,79 +12,111 @@
   <style>
     /* ================ 🎨 PREMIUM DESIGN SYSTEM ================ */
     :root {
-      /* 🍔 Paleta iFood Premium */
+      /* 🍔 Paleta iFood + Betazilla */
       --ifood-red: #EA1D2C;
       --ifood-red-dark: #B91C1C;
-      --ifood-red-light: #F87171;
-      --ifood-orange: #FF6B35;
-      --ifood-yellow: #FCD34D;
-      --ifood-dark: #111827;
-      --ifood-gray: #F9FAFB;
-      
-      /* 🌙 Dark Theme Premium */
-      --bg: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #334155 100%);
-      --bg-panel: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(51, 65, 85, 0.9) 100%);
-      --bg-card: linear-gradient(135deg, rgba(51, 65, 85, 0.8) 0%, rgba(71, 85, 105, 0.7) 100%);
-      --bg-glass: rgba(255, 255, 255, 0.05);
-      --bg-glass-hover: rgba(255, 255, 255, 0.1);
-      
+      --ifood-accent: #FF6B35;
+      --bz-purple: #6B21A8; /* Betazilla accent */
+      --bz-neon: #B633FF;
+      --bg-dark: #080812;
+
+      /* 🌙 Backgrounds com gradientes neon sutis */
+      --bg: linear-gradient(135deg, #071028 0%, #0b1224 40%, #121022 100%);
+      --bg-panel: linear-gradient(180deg, rgba(10,12,20,0.8), rgba(18,14,30,0.75));
+      --bg-card: linear-gradient(180deg, rgba(14,16,28,0.7), rgba(22,18,36,0.75));
+      --bg-glass: rgba(255,255,255,0.025);
+      --bg-glass-hover: rgba(255,255,255,0.045);
+
       /* 🎨 Text Colors */
       --text-primary: #F8FAFC;
-      --text-secondary: #CBD5E1;
-      --text-muted: #94A3B8;
-      --text-accent: #E2E8F0;
-      
+      --text-secondary: #C7D2E1;
+      --text-muted: #9AA8BF;
+      --text-accent: var(--ifood-red);
+
       /* 🎭 Borders & Surfaces */
-      --border: rgba(148, 163, 184, 0.2);
-      --border-hover: rgba(203, 213, 225, 0.3);
-      --border-focus: rgba(234, 29, 44, 0.5);
-      --surface: rgba(255, 255, 255, 0.02);
-      --surface-hover: rgba(255, 255, 255, 0.05);
-      
-      /* 🎯 Status Colors Premium */
+      --border: rgba(150,165,190,0.08);
+      --border-hover: rgba(200,210,230,0.06);
+      --border-focus: rgba(107,33,168,0.35);
+      --surface: rgba(255,255,255,0.02);
+
+      /* 🎯 Status Colors */
       --success: #10B981;
-      --success-bg: rgba(16, 185, 129, 0.1);
-      --success-border: rgba(16, 185, 129, 0.2);
       --warning: #F59E0B;
-      --warning-bg: rgba(245, 158, 11, 0.1);
-      --warning-border: rgba(245, 158, 11, 0.2);
       --error: #EF4444;
-      --error-bg: rgba(239, 68, 68, 0.1);
-      --error-border: rgba(239, 68, 68, 0.2);
-      --info: #3B82F6;
-      --info-bg: rgba(59, 130, 246, 0.1);
-      --info-border: rgba(59, 130, 246, 0.2);
-      
-      /* ✨ Premium Effects */
-      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-      --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-      --shadow-glow: 0 0 20px rgba(234, 29, 44, 0.3);
-      --shadow-success: 0 0 20px rgba(16, 185, 129, 0.3);
-      --shadow-warning: 0 0 20px rgba(245, 158, 11, 0.3);
-      
+      --info: #60A5FA;
+
+      /* ✨ Effects */
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.45);
+      --shadow: 0 8px 30px rgba(0,0,0,0.6);
+      --shadow-glow: 0 0 30px rgba(182, 28, 206, 0.14);
+
       /* 🎭 Border Radius */
-      --radius-xs: 4px;
-      --radius-sm: 8px;
-      --radius: 12px;
-      --radius-md: 16px;
+      --radius-xs: 6px;
+      --radius-sm: 10px;
+      --radius: 14px;
       --radius-lg: 20px;
-      --radius-xl: 24px;
-      --radius-full: 9999px;
-      
-      /* 🎨 Glassmorphism */
-      --glass: backdrop-filter: blur(20px) saturate(180%);
-      --glass-border: 1px solid rgba(255, 255, 255, 0.125);
-      
-      /* 🚀 Animations Premium */
-      --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      --bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+      /* 🚀 Motion */
+      --transition-fast: all 0.12s cubic-bezier(0.2,0.8,0.2,1);
+      --transition: all 0.28s cubic-bezier(0.2,0.8,0.2,1);
+      --ease-out: cubic-bezier(0.22,1,0.36,1);
     }
+
+    /* Buttons / controls theming */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.55rem 0.9rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: var(--transition);
+      font-weight: 600;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-primary {
+      background: linear-gradient(90deg, var(--ifood-red), var(--ifood-accent));
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 6px 24px rgba(234,29,44,0.12), 0 0 18px rgba(182,28,206,0.06);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.04);
+      color: var(--text-secondary);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary:hover { box-shadow: 0 12px 40px rgba(234,29,44,0.18); transform: translateY(-3px) scale(1.01); }
+
+    /* Checkbox cosmetic */
+    input[type="checkbox"] {
+      width: 18px; height: 18px; border-radius: 6px; accent-color: var(--ifood-red);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    /* Chip */
+    .chip { padding: 0.25rem 0.5rem; border-radius: 999px; font-size: 0.78rem; background: rgba(255,255,255,0.02); color:var(--text-secondary); }
+    .chip-success { background: rgba(16,185,129,0.08); color: var(--success); }
+    .chip-warning { background: rgba(182,28,206,0.06); color: var(--bz-purple); }
+    .chip-neutral { opacity: 0.7; }
+
+    /* BetaZilla easter eggs: glowing logo and dancing background */
+    .logo { font-size: 2.2rem; padding: 0.4rem; border-radius: 8px; display:inline-flex; align-items:center; justify-content:center; background: linear-gradient(90deg, rgba(234,29,44,0.12), rgba(107,33,168,0.08)); box-shadow: 0 6px 30px rgba(107,33,168,0.06); }
+    .logo.pulse { animation: pulse 1.8s infinite ease-in-out; box-shadow: 0 10px 60px rgba(182,28,206,0.08); }
+
+    .bz-confetti { pointer-events:none; position:fixed; inset:0; z-index: 5000; mix-blend-mode:screen; }
+
 
     /* ================ � GLOBAL STYLES PREMIUM ================ */
     * {
@@ -190,6 +222,8 @@
       0%, 100% { transform: scale(1); opacity: 1; }
       50% { transform: scale(1.05); opacity: 0.9; }
     }
+
+    .pulse { animation: pulse 700ms var(--ease-out); box-shadow: 0 8px 30px rgba(182,28,206,0.12) !important; transform-origin: center; }
 
     /* ================ 🎨 PREMIUM HEADER ================ */
     .header {
@@ -711,6 +745,21 @@
       transform: translateY(-2px);
       box-shadow: var(--shadow-lg), 0 0 30px rgba(245, 158, 11, 0.4);
     }
+
+    /* Table row styles */
+    table#dataTable tr { transition: background 160ms var(--ease-out), transform 160ms var(--ease-out); }
+    table#dataTable tr:hover { background: linear-gradient(90deg, rgba(255,255,255,0.008), rgba(182,28,206,0.02)); transform: translateY(-2px); }
+    table#dataTable td { padding: 0.6rem 0.8rem; border-bottom: 1px dashed rgba(255,255,255,0.02); }
+    table#dataTable thead tr { border-bottom: 1px solid rgba(255,255,255,0.03); }
+
+    .action-btn { padding:0.4rem 0.6rem; min-height:36px; font-size:0.9rem; }
+    .action-btn.copy { background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.03); }
+    .action-btn.edit { background: linear-gradient(90deg, var(--bz-neon), rgba(182,28,206,0.6)); color: white; box-shadow: 0 8px 28px rgba(182,28,206,0.08); }
+    .action-btn:hover { transform: translateY(-2px) scale(1.01); }
+
+    .font-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace; font-size:0.9rem; }
+    .font-bold { font-weight:700; }
+    .text-muted { color: var(--text-muted); }
 
     /* Button sizes */
     .btn-sm {
@@ -1764,6 +1813,8 @@
       border: 1px solid rgba(245, 158, 11, 0.3);
     }
 
+    .saving-indicator { font-size:0.8rem; color:var(--text-muted); margin-left:0.5rem; }
+
     .status-erro {
       background: rgba(239, 68, 68, 0.2);
       color: var(--error);
@@ -2254,7 +2305,7 @@
   <header class="header">
     <div class="header-content">
       <div class="logo-section">
-        <div class="logo">🦖</div>
+        <div class="logo pulse">🦖</div>
         <div>
           <h1 class="title">BetaZilla ARM</h1>
           <p class="subtitle">Dashboard Integrações PDV - Versão Completa</p>
@@ -2265,6 +2316,18 @@
         <div class="connection-status" id="connectionStatus">
           <div class="status-dot status-loading"></div>
           <span id="statusText">Conectando...</span>
+        </div>
+        <div class="transport-indicator" id="transportIndicator" title="Último transporte usado">
+          <span id="transportChip" class="chip chip-neutral">—</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.4rem;">
+          <label style="font-size:0.8rem;color:var(--text-muted);">Force JSONP</label>
+          <input type="checkbox" id="forceJsonpToggle" />
+        </div>
+        <div style="display:flex;align-items:center;gap:0.4rem;">
+          <button class="btn btn-ghost" id="filterAllBtn" onclick="setViewType('all')">Todos</button>
+          <button class="btn btn-ghost" id="filterPdvBtn" onclick="setViewType('pdv')">TESTES PDV</button>
+          <button class="btn btn-ghost" id="filterLegadoBtn" onclick="setViewType('legado')">TESTES LEGADO</button>
         </div>
         <button class="btn btn-secondary" onclick="refreshData()">
           <span>🔄</span> Atualizar
@@ -2695,7 +2758,7 @@
               <div class="doc-meta"><span class="doc-type">PDF</span></div>
             </div>
             <div class="doc-actions">
-              <a href="/docs/integration-manual.pdf" target="_blank" class="btn btn-secondary">📥 Abrir PDF</a>
+              <a href="https://drive.google.com/file/d/1fiZRMnA3fVEsbEbPCjYz5wAqG3arISfE/view?usp=sharing" target="_blank" rel="noopener" class="btn btn-secondary">📥 Abrir PDF</a>
             </div>
           </div>
         </div>
@@ -2745,15 +2808,15 @@
   </main>
 
   <!-- ================ 🔄 LOADING OVERLAY ================ -->
-  <div class="loading-overlay" id="loadingOverlay">
-    <div class="loading-content">
-      <div class="spinner"></div>
-      <p>Carregando dados...</p>
+  <div class="loading-overlay" id="loadingOverlay" style="position:fixed;inset:0;background:linear-gradient(180deg, rgba(2,6,23,0.6), rgba(2,6,23,0.75));display:none;align-items:center;justify-content:center;z-index:4000;backdrop-filter: blur(4px);">
+    <div class="loading-content" style="background:linear-gradient(180deg, rgba(14,16,28,0.88), rgba(22,18,36,0.9));padding:1.2rem;border-radius:14px;display:flex;flex-direction:column;align-items:center;gap:0.6rem;border:1px solid rgba(255,255,255,0.035);box-shadow:var(--shadow);">
+      <div class="spinner" style="width:56px;height:56px;border-radius:50%;border:6px solid rgba(255,255,255,0.06);border-top-color:var(--bz-neon);animation:spin 1s linear infinite;"></div>
+      <p style="color:var(--text-secondary);">Carregando dados...</p>
     </div>
   </div>
 
   <!-- ================ ✏️ EDIT ITEM MODAL ================ -->
-  <div id="editModal" class="egg-modal hidden">
+  <div id="editModal" class="egg-modal hidden" aria-hidden="true">
     <div class="egg-content" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
       <div class="egg-header">
         <h3 id="editModalTitle">✏️ Editar Item</h3>
@@ -2762,22 +2825,28 @@
       <div class="egg-body">
         <form id="editForm" onsubmit="event.preventDefault(); saveEditModal();">
           <input type="hidden" id="edit-id">
-          <div style="display:flex;gap:0.5rem;margin-bottom:0.5rem;">
-            <input id="edit-nome" placeholder="Nome do PDV" style="flex:1;padding:0.5rem;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text-primary);" />
-            <select id="edit-status" style="padding:0.5rem;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text-primary);">
+          <input type="hidden" id="edit-aba">
+          <input type="hidden" id="edit-linha">
+          <div style="display:flex;gap:0.5rem;margin-bottom:0.6rem;">
+            <input id="edit-nome" placeholder="Nome do PDV" style="flex:1;padding:0.65rem;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));color:var(--text-primary);box-shadow:inset 0 1px 0 rgba(255,255,255,0.02);transition:var(--transition);" />
+            <select id="edit-status" style="padding:0.6rem;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));color:var(--text-primary);">
               <option>Integrado</option>
               <option>Pendente</option>
               <option>Erro</option>
             </select>
           </div>
-          <div style="display:flex;gap:0.5rem;align-items:center;">
+          <div style="display:flex;gap:0.5rem;margin-bottom:0.6rem;">
             <label style="font-size:0.85rem;color:var(--text-muted);">Integrado:</label>
-            <select id="edit-integrado" style="padding:0.35rem;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text-primary);">
+            <select id="edit-integrado" style="padding:0.45rem;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text-primary);min-width:88px;">
               <option>Sim</option>
               <option>Não</option>
             </select>
           </div>
-          <div style="margin-top:1rem;text-align:right;">
+          <div style="display:flex;gap:0.5rem;margin-bottom:0.6rem;">
+            <textarea id="edit-notes" placeholder="Observações" style="flex:1;padding:0.6rem;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));color:var(--text-primary);min-height:86px;resize:vertical;"></textarea>
+          </div>
+          <div style="margin-top:1rem;text-align:right;display:flex;gap:0.5rem;justify-content:flex-end;">
+            <button type="button" class="btn btn-ghost" onclick="closeEditModal()">Cancelar</button>
             <button class="btn btn-primary" type="submit">💾 Salvar</button>
           </div>
         </form>
@@ -2794,9 +2863,40 @@
       maxRetries: 3
     };
 
+    // Transport control
+    let FORCE_JSONP = false;
+    function setTransportIndicator(mode) {
+      const chip = document.getElementById('transportChip');
+      if (!chip) return;
+      chip.className = 'chip';
+      if (mode === 'fetch') {
+        chip.textContent = 'fetch';
+        chip.classList.add('chip-success');
+      } else if (mode === 'jsonp') {
+        chip.textContent = 'JSONP';
+        chip.classList.add('chip-warning');
+      } else {
+        chip.textContent = '—';
+        chip.classList.add('chip-neutral');
+      }
+    }
+
+    // Wire the toggle
+    document.addEventListener('DOMContentLoaded', function() {
+      const tgl = document.getElementById('forceJsonpToggle');
+      if (tgl) {
+        tgl.addEventListener('change', function() {
+          FORCE_JSONP = !!this.checked;
+          setTransportIndicator(FORCE_JSONP ? 'jsonp' : '—');
+          showAlert(`Modo Force JSONP: ${FORCE_JSONP ? 'ON' : 'OFF'}`, 'info');
+        });
+      }
+    });
+
     let currentData = [];
     let isConnected = false;
     let refreshTimer = null;
+  let currentViewType = 'all'; // 'all' | 'pdv' | 'legado'
 
     // ================ 🚀 INICIALIZAÇÃO ================
     document.addEventListener('DOMContentLoaded', function() {
@@ -2816,6 +2916,20 @@
       // Configurar auto-refresh
       setupAutoRefresh();
     });
+
+    function setViewType(type) {
+      currentViewType = type || 'all';
+      // Atualizar estilos dos botões
+      ['All','Pdv','Legado'].forEach(k => {
+        const id = 'filter' + k + 'Btn';
+        const el = document.getElementById(id.toLowerCase && id) || document.getElementById(id);
+        if (el) el.classList.remove('active');
+      });
+      const btnMap = { all: 'filterAllBtn', pdv: 'filterPdvBtn', legado: 'filterLegadoBtn' };
+      const activeBtn = document.getElementById(btnMap[type] || btnMap.all);
+      if (activeBtn) activeBtn.classList.add('active');
+      updateTable();
+    }
 
     // ================ 🌓 SISTEMA DE TEMAS ================
     function initThemeSystem() {
@@ -2914,6 +3028,26 @@
       try {
         console.log('🧪 Testando conexão com:', CONFIG.scriptUrl);
         
+        // Se o usuário marcou FORÇAR JSONP, pule fetch e use JSONP direto
+        if (FORCE_JSONP) {
+          try {
+            const pingData = await tryJsonpPing(CONFIG.scriptUrl);
+            setTransportIndicator('jsonp');
+            if (pingData && pingData.ok) {
+              isConnected = true;
+              statusText.textContent = 'Conectado (JSONP)';
+              statusDot.className = 'status-dot status-online';
+              connectionInfo.textContent = `Conectado - ${pingData.version || 'v2.0'} - ${pingData.timestamp ? new Date(pingData.timestamp).toLocaleTimeString() : 'agora'}`;
+              console.log('✅ Conexão estabelecida (JSONP - forced):', pingData);
+              await loadRealData({ jsonp: true });
+              updateQuickInfo();
+              return;
+            }
+          } catch (e) {
+            console.warn('⚠️ Force JSONP falhou:', e);
+          }
+        }
+
         // Primeiro testar ping via fetch
         const pingUrl = `${CONFIG.scriptUrl}?action=ping&_t=${Date.now()}`;
         try {
@@ -2944,6 +3078,7 @@
           statusDot.className = 'status-dot status-online';
           connectionInfo.textContent = `Conectado - ${pingData.version || 'v2.0'} - ${pingData.timestamp ? new Date(pingData.timestamp).toLocaleTimeString() : 'agora'}`;
           console.log('✅ Conexão estabelecida (fetch):', pingData);
+          setTransportIndicator('fetch');
 
           await loadRealData();
           updateQuickInfo();
@@ -2958,6 +3093,7 @@
             statusDot.className = 'status-dot status-online';
             connectionInfo.textContent = `Conectado - ${pingData.version || 'v2.0'} - ${pingData.timestamp ? new Date(pingData.timestamp).toLocaleTimeString() : 'agora'}`;
             console.log('✅ Conexão estabelecida (JSONP):', pingData);
+            setTransportIndicator('jsonp');
 
             // carregar dados via JSONP
             await loadRealData({jsonp: true});
@@ -2991,6 +3127,17 @@
       try {
         const dataUrl = `${CONFIG.scriptUrl}?action=getData&_t=${Date.now()}`;
 
+        // Se o usuário ativou FORCE_JSONP, pule fetch
+        if (FORCE_JSONP) {
+          const jsonpResult = await tryJsonpGetData(CONFIG.scriptUrl).catch(e => { console.warn('JSONP falhou (forced):', e); return null; });
+          if (jsonpResult) {
+            setTransportIndicator('jsonp');
+            console.log('📊 Dados recebidos (JSONP forced):', jsonpResult);
+            applyDataToDashboard(jsonpResult);
+            return;
+          }
+        }
+
         // Primeiro tentamos fetch normal (CORS). Se falhar, tentamos JSONP.
         try {
           const response = await fetch(dataUrl, {
@@ -3015,6 +3162,7 @@
           }
 
           // Aplicar dados ao dashboard
+          setTransportIndicator('fetch');
           applyDataToDashboard(result);
           return;
         } catch (fetchErr) {
@@ -3026,6 +3174,7 @@
           });
 
           if (jsonpResult) {
+            setTransportIndicator('jsonp');
             console.log('📊 Dados recebidos (JSONP):', jsonpResult);
             applyDataToDashboard(jsonpResult);
             return;
@@ -3201,7 +3350,7 @@
     function updateTable() {
       const tbody = document.getElementById('tableBody');
       
-      if (currentData.length === 0) {
+      if (!Array.isArray(currentData) || currentData.length === 0) {
         tbody.innerHTML = `
           <tr>
             <td colspan="6" class="text-center text-muted">
@@ -3212,29 +3361,51 @@
         return;
       }
 
-      tbody.innerHTML = currentData.map(item => `
+      // Filtrar por tipo se disponível (pdv / legado)
+      let filtered = currentData;
+      if (currentViewType === 'pdv') {
+        filtered = currentData.filter(i => String(i.tipo || i.Tipo || '').toLowerCase() === 'pdv');
+      } else if (currentViewType === 'legado') {
+        filtered = currentData.filter(i => String(i.tipo || i.Tipo || '').toLowerCase() === 'legado');
+      }
+
+      // Heurística para campos importantes
+      function getField(item, candidates) {
+        for (const c of candidates) {
+          if (item[c] !== undefined && item[c] !== null) return item[c];
+        }
+        return '';
+      }
+
+      tbody.innerHTML = filtered.map(item => {
+        const merchant = getField(item, ['MERCHANT ID', 'Merchant ID', 'merchantId', 'merchant', 'FRNID', 'FRN_ID']);
+        const produto = getField(item, ['NOME DO PRODUTO', 'Nome do Produto', 'produto', 'nome', 'Nome']);
+        const codigo = getField(item, ['CODIGO DO PRODUTO', 'Codigo', 'codigo', 'CÓDIGO']);
+        const preco = getField(item, ['PREÇO DO PRODUTO', 'Preco', 'preco', 'Preço']);
+        const contato = getField(item, ['CONTATO DO RESTAURANTE', 'Contato', 'contato']);
+        const jaFeito = getField(item, ['JA FEITO?', 'Ja feito', 'jaFeito', 'JA FEITO', 'ja feito', 'JaFeito']);
+        const status = item.status || item.Status || '';
+        const id = item.id || '';
+        const ultima = item.ultimaModificacao || item['Última Modificação'] || item.ultima || '';
+
+        return `
         <tr>
-          <td class="font-mono">${item.id}</td>
-          <td class="font-bold">${item.nome}</td>
+          <td class="font-mono">${id}</td>
+          <td class="font-bold">${merchant || produto || item.nome || ''}</td>
+          <td>${produto}</td>
+          <td>${codigo}</td>
+          <td>${preco}</td>
+          <td>${contato}</td>
+          <td class="font-mono text-muted">${ultima}</td>
           <td>
-            <span class="status-badge status-${getStatusClass(item.status)}">
-              ${getStatusIcon(item.status)} ${item.status}
-            </span>
-          </td>
-          <td>
-            <span class="text-${item.integrado === 'Sim' || item.status === 'Integrado' ? 'success' : 'error'}">
-              ${item.integrado === 'Sim' || item.status === 'Integrado' ? '✅' : '❌'} ${item.integrado}
-            </span>
-          </td>
-          <td class="font-mono text-muted">${item.ultimaModificacao}</td>
-          <td style="display:flex;gap:0.4rem;">
-            <button class="btn btn-ghost" onclick="copyRow(${item.id})" title="Copiar linha" style="padding:0.25rem 0.45rem;font-size:0.78rem;">📋</button>
-            <button class="btn btn-secondary" onclick="openEditModal(${item.id})" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">
-              ✏️ Editar
-            </button>
+            <div style="display:flex;gap:0.35rem;align-items:center;">
+              <button class="btn action-btn copy" onclick="copyRow('${id}')" title="Copiar linha">📋</button>
+              <button class="btn action-btn edit" onclick="openEditModal('${id}')" title="Editar registro">✏️</button>
+            </div>
           </td>
         </tr>
-      `).join('');
+      `;
+      }).join('');
     }
 
     function getStatusClass(status) {
@@ -3366,6 +3537,8 @@
       document.getElementById('edit-nome').value = item.nome || '';
       document.getElementById('edit-status').value = item.status || 'Pendente';
       document.getElementById('edit-integrado').value = item.integrado || 'Não';
+      document.getElementById('edit-aba').value = item.aba || '';
+      document.getElementById('edit-linha').value = item.linha || '';
       const modal = document.getElementById('editModal');
       if (modal) modal.classList.remove('hidden');
     }
@@ -3381,31 +3554,97 @@
       const status = document.getElementById('edit-status').value;
       const integrado = document.getElementById('edit-integrado').value;
 
-      const idx = currentData.findIndex(i => String(i.id) === String(id));
+  const idx = currentData.findIndex(i => String(i.id) === String(id));
       if (idx === -1) { showAlert('❌ Item não encontrado', 'error'); return; }
 
-      currentData[idx].nome = nome;
-      currentData[idx].status = status;
-      currentData[idx].integrado = integrado;
-      currentData[idx].ultimaModificacao = new Date().toLocaleString();
+  currentData[idx].nome = nome;
+  currentData[idx].status = status;
+  currentData[idx].integrado = integrado;
+  currentData[idx].ultimaModificacao = new Date().toLocaleString();
+
+  // atualizar campos de linha/aba caso existam
+  const abaVal = document.getElementById('edit-aba').value;
+  const linhaVal = document.getElementById('edit-linha').value;
+  if (abaVal) currentData[idx].aba = abaVal;
+  if (linhaVal) currentData[idx].linha = linhaVal;
 
       updateStats();
       updateTable();
       updateQuickInfo();
       closeEditModal();
-      showAlert('✅ Item salvo localmente', 'success');
+      showAlert('💾 Item salvo localmente (sincronizando...)', 'info');
+
+      // Optimistic save: enviar somente o registro editado imediatamente com debounce
+      const recordToSave = Object.assign({}, currentData[idx]);
+      // Mapear chaves para enviar: manter campos originais se possível
+      saveToServer([recordToSave]).then(res => {
+        if (res && res.ok) {
+          showAlert('✅ Alteração sincronizada com o servidor', 'success');
+        } else {
+          showAlert('⚠️ Alteração salva localmente, falha ao sincronizar', 'warning');
+        }
+      }).catch(err => {
+        console.warn('Erro ao sincronizar item:', err);
+        showAlert('❌ Falha ao sincronizar item', 'error');
+      });
     }
 
     function copyRow(id) {
       const item = currentData.find(i => Number(i.id) === Number(id));
       if (!item) { showAlert('❌ Item não encontrado para copiar', 'error'); return; }
       const text = `ID: ${item.id}\nNome: ${item.nome}\nStatus: ${item.status}\nIntegrado: ${item.integrado}\nÚltima Modificação: ${item.ultimaModificacao}`;
+      // Visual feedback: animar botão
+      try {
+        const btn = document.querySelector(`button[onclick*="copyRow('${id}')"]`);
+        if (btn) { btn.classList.add('pulse'); setTimeout(() => btn.classList.remove('pulse'), 700); }
+      } catch (e) {}
+
       if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(text).then(() => showAlert('📋 Linha copiada para a área de transferência', 'success'))
         .catch(() => { fallbackCopyTextToClipboard(text); });
       } else {
         fallbackCopyTextToClipboard(text);
       }
+    }
+
+    // ================ 💾 DEBOUNCE & SYNC ================
+    let saveTimer = null;
+    function debouncedSaveChanges() {
+      if (saveTimer) clearTimeout(saveTimer);
+      // show saving indicator
+      const connectionInfo = document.getElementById('connectionInfo');
+      if (connectionInfo) connectionInfo.textContent = 'Salvando...';
+      saveTimer = setTimeout(() => {
+        saveToServer(currentData).then(() => {
+          if (connectionInfo) connectionInfo.textContent = 'Última alteração: ' + new Date().toLocaleTimeString();
+          showAlert('✅ Alterações sincronizadas com sucesso', 'success');
+        }).catch(err => {
+          console.warn('Erro ao salvar no servidor:', err);
+          if (connectionInfo) connectionInfo.textContent = 'Falha ao sincronizar';
+          showAlert('❌ Erro ao sincronizar alterações: ' + (err && err.message ? err.message : ''), 'error');
+        });
+      }, 900); // debounce 900ms
+    }
+
+    // stub: implementar integração com Apps Script aqui
+    function saveToServer(data) {
+      // data: array de registros a salvar
+      if (!CONFIG.scriptUrl) return Promise.reject(new Error('URL do Apps Script não configurada'));
+      const payload = { action: 'save', records: data };
+      return fetch(CONFIG.scriptUrl, {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(resp => {
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        return resp.json().catch(() => ({}));
+      }).then(json => {
+        return json;
+      }).catch(err => {
+        throw err;
+      });
     }
 
     // ================ 🏷️ CONTROLE DE ABAS ================
