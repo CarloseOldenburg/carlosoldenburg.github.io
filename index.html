@@ -12,26 +12,26 @@
   <style>
     /* ================ 🎨 PREMIUM DESIGN SYSTEM ================ */
     :root {
-      /* 🍔 Paleta iFood + Betazilla */
-      --ifood-red: #EA1D2C;
-      --ifood-red-dark: #B91C1C;
-      --ifood-accent: #FF6B35;
-      --bz-purple: #6B21A8; /* Betazilla accent */
-      --bz-neon: #B633FF;
-      --bg-dark: #080812;
+      /* 🍔 Paleta iFood + Betazilla (versão mais clara e futurista) */
+      --ifood-red: #FF3B3B; /* ligeiramente mais vibrante */
+      --ifood-red-dark: #C53030;
+      --ifood-accent: #FF7A50;
+      --bz-purple: #8B3DF5; /* Betazilla accent (mais claro) */
+      --bz-neon: #C27BFF;
+      --bg-dark: #0F1724;
 
-      /* 🌙 Backgrounds com gradientes neon sutis */
-      --bg: linear-gradient(135deg, #071028 0%, #0b1224 40%, #121022 100%);
-      --bg-panel: linear-gradient(180deg, rgba(10,12,20,0.8), rgba(18,14,30,0.75));
-      --bg-card: linear-gradient(180deg, rgba(14,16,28,0.7), rgba(22,18,36,0.75));
-      --bg-glass: rgba(255,255,255,0.025);
-      --bg-glass-hover: rgba(255,255,255,0.045);
+      /* 🌤 Backgrounds com gradientes mais claros e contraste */
+      --bg: linear-gradient(135deg, #0b2540 0%, #10243a 40%, #142936 100%);
+      --bg-panel: linear-gradient(180deg, rgba(16,24,40,0.85), rgba(20,30,48,0.9));
+      --bg-card: linear-gradient(180deg, rgba(22,28,44,0.82), rgba(30,34,52,0.88));
+      --bg-glass: rgba(255,255,255,0.035);
+      --bg-glass-hover: rgba(255,255,255,0.06);
 
-      /* 🎨 Text Colors */
-      --text-primary: #F8FAFC;
-      --text-secondary: #C7D2E1;
-      --text-muted: #9AA8BF;
-      --text-accent: var(--ifood-red);
+  /* 🎨 Text Colors (maior contraste) */
+  --text-primary: #FBFDFF;
+  --text-secondary: #E6EDF8;
+  --text-muted: #B7C6D9;
+  --text-accent: var(--ifood-accent);
 
       /* 🎭 Borders & Surfaces */
       --border: rgba(150,165,190,0.08);
@@ -46,9 +46,9 @@
       --info: #60A5FA;
 
       /* ✨ Effects */
-      --shadow-sm: 0 2px 8px rgba(0,0,0,0.45);
-      --shadow: 0 8px 30px rgba(0,0,0,0.6);
-      --shadow-glow: 0 0 30px rgba(182, 28, 206, 0.14);
+  --shadow-sm: 0 6px 18px rgba(8,10,20,0.5);
+  --shadow: 0 12px 40px rgba(8,10,20,0.55);
+  --shadow-glow: 0 0 32px rgba(139,61,255,0.12);
 
       /* 🎭 Border Radius */
       --radius-xs: 6px;
@@ -57,9 +57,25 @@
       --radius-lg: 20px;
 
       /* 🚀 Motion */
-      --transition-fast: all 0.12s cubic-bezier(0.2,0.8,0.2,1);
-      --transition: all 0.28s cubic-bezier(0.2,0.8,0.2,1);
-      --ease-out: cubic-bezier(0.22,1,0.36,1);
+      --transition-fast: all 0.1s cubic-bezier(0.2,0.9,0.2,1);
+      --transition: all 0.22s cubic-bezier(0.2,0.9,0.2,1);
+      --ease-out: cubic-bezier(0.18,1,0.35,1);
+    }
+
+    /* Regras responsivas básicas */
+    @media (max-width: 1024px) {
+      .header-content { padding: 1rem; }
+      .main-content { padding: 1rem; }
+      .stat-card { padding: 1rem; }
+      .btn { min-height: 40px; padding: 0.5rem 0.9rem; }
+    }
+
+    @media (max-width: 640px) {
+      .header-content { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .status-bar { width: 100%; justify-content: space-between; }
+      .stat-card { padding: 0.9rem; }
+      table#dataTable { min-width: 100%; font-size: 0.95rem; }
+      .btn { width: auto; padding: 0.45rem 0.7rem; }
     }
 
     /* Buttons / controls theming */
@@ -428,7 +444,7 @@
     }
 
     .stat-card {
-      background: var(--bg-panel);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
       backdrop-filter: blur(20px) saturate(180%);
       border-radius: var(--radius-lg);
       padding: 2rem;
@@ -456,9 +472,9 @@
       right: 0;
       height: 4px;
       background: linear-gradient(90deg, 
-        var(--ifood-red) 0%, 
-        var(--ifood-orange) 50%, 
-        var(--ifood-yellow) 100%);
+        var(--ifood-accent) 0%, 
+        var(--bz-purple) 50%, 
+        var(--ifood-red) 100%);
       background-size: 200% 100%;
       border-radius: var(--radius-lg) var(--radius-lg) 0 0;
       animation: gradientShift 4s ease infinite;
@@ -501,10 +517,10 @@
     }
 
     .stat-icon {
-      font-size: 2rem;
-      opacity: 0.8;
+      font-size: 1.6rem;
+      opacity: 0.95;
       transition: var(--transition);
-      background: linear-gradient(135deg, var(--ifood-red), var(--ifood-orange));
+      background: linear-gradient(135deg, var(--bz-purple), var(--ifood-accent));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -527,7 +543,7 @@
     }
 
     .stat-value {
-      font-size: 3rem;
+      font-size: 2.4rem;
       font-weight: 900;
       margin-bottom: 1rem;
       background: linear-gradient(135deg, 
@@ -545,8 +561,8 @@
     }
 
     .stat-card:hover .stat-value {
-      transform: scale(1.05);
-      text-shadow: 0 0 20px rgba(234, 29, 44, 0.3);
+      transform: scale(1.03);
+      text-shadow: 0 0 18px rgba(139,61,255,0.14);
     }
 
     .stat-change {
@@ -649,6 +665,10 @@
       align-items: center;
       gap: 1rem;
     }
+
+    /* Form / config cards */
+    .config-card { background: var(--bg-card); border-radius: var(--radius); padding: 1rem; border:1px solid rgba(255,255,255,0.03); box-shadow: var(--shadow); }
+    .config-card input, .config-card select, .config-card textarea { background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02)); border:1px solid rgba(255,255,255,0.04); color:var(--text-primary); padding:0.6rem; border-radius:8px; }
 
     /* ================ 🔘 PREMIUM BUTTONS ================ */
     .btn {
@@ -2856,6 +2876,81 @@
 
   <!-- ================ 💻 JAVASCRIPT ================ -->
   <script>
+    // ================ 🎉 Confetti simples e Easter-egg listeners ================
+    (function setupConfetti() {
+      function createConfetti() {
+        const canvas = document.createElement('canvas');
+        canvas.className = 'bz-confetti';
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        document.body.appendChild(canvas);
+        const ctx = canvas.getContext('2d');
+
+        const pieces = [];
+        const colors = [getComputedStyle(document.documentElement).getPropertyValue('--ifood-accent').trim() || '#FF7A50', getComputedStyle(document.documentElement).getPropertyValue('--bz-neon').trim() || '#C27BFF', getComputedStyle(document.documentElement).getPropertyValue('--ifood-red').trim() || '#FF3B3B'];
+
+        for (let i=0;i<80;i++) {
+          pieces.push({
+            x: Math.random()*canvas.width,
+            y: Math.random()*-canvas.height,
+            r: 6+Math.random()*8,
+            dx: -2 + Math.random()*4,
+            dy: 2 + Math.random()*6,
+            color: colors[Math.floor(Math.random()*colors.length)],
+            rot: Math.random()*360,
+            dRot: -4 + Math.random()*8
+          });
+        }
+
+        let raf;
+        function draw() {
+          ctx.clearRect(0,0,canvas.width,canvas.height);
+          pieces.forEach(p => {
+            p.x += p.dx; p.y += p.dy; p.rot += p.dRot;
+            ctx.save();
+            ctx.translate(p.x,p.y);
+            ctx.rotate(p.rot * Math.PI/180);
+            ctx.fillStyle = p.color;
+            ctx.fillRect(-p.r/2, -p.r/2, p.r, p.r*0.6);
+            ctx.restore();
+          });
+          raf = requestAnimationFrame(draw);
+        }
+
+        draw();
+        setTimeout(() => {
+          cancelAnimationFrame(raf);
+          canvas.remove();
+        }, 3500);
+      }
+
+      // Trigger confetti on eggBtn click
+      const eggBtn = document.getElementById('eggBtn');
+      if (eggBtn) {
+        eggBtn.addEventListener('click', (e) => {
+          createConfetti();
+          // Also open the egg modal if present
+          const m = document.getElementById('eggModal');
+          if (m) m.classList.remove('hidden');
+        });
+      }
+
+      // Shortcut: press Shift quickly 3x on logo to trigger
+      let shiftCount = 0; let lastShiftTime = 0;
+      const logo = document.querySelector('.logo');
+      if (logo) {
+        logo.addEventListener('keydown', (ev) => { if (ev.key === 'Shift') ev.preventDefault(); });
+        logo.setAttribute('tabindex','0');
+        logo.addEventListener('click', () => {
+          const now = Date.now();
+          if (now - lastShiftTime < 1200) {
+            shiftCount++;
+          } else { shiftCount = 1; }
+          lastShiftTime = now;
+          if (shiftCount >= 3) { createConfetti(); const m = document.getElementById('eggModal'); if (m) m.classList.remove('hidden'); shiftCount = 0; }
+        });
+      }
+    })();
     // ================ 🎯 CONFIGURAÇÃO ================
     let CONFIG = {
       scriptUrl: '',
