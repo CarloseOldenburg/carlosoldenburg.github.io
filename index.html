@@ -306,25 +306,40 @@
 
     .egg-modal {
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
+      inset: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(0,0,0,0.6);
+      background: rgba(2,6,23,0.6);
       z-index: 2000;
       padding: 1.5rem;
+      opacity: 1;
+      transition: opacity 240ms var(--ease-out);
+      pointer-events: auto;
+      backdrop-filter: blur(6px) saturate(140%);
     }
 
-    .egg-modal.hidden { display: none; }
+    .egg-modal.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
 
     .egg-content {
-      background: linear-gradient(180deg, rgba(18,18,20,0.98), rgba(30,30,34,0.98));
-      border: 1px solid rgba(234,88,12,0.12);
+      background: linear-gradient(180deg, rgba(14,14,18,0.96), rgba(28,24,36,0.9));
+      border: 1px solid rgba(234,29,44,0.08);
       padding: 1.25rem;
-      border-radius: 12px;
-      width: 480px;
-      max-width: 100%;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      border-radius: 14px;
+      width: 520px;
+      max-width: 96%;
+      box-shadow: 0 18px 40px rgba(12,12,20,0.6), var(--shadow-glow);
+      transform-origin: center bottom;
+      transform: translateY(8px) scale(0.995);
+      animation: eggIn 320ms cubic-bezier(.2,.9,.3,1) both;
+    }
+
+    @keyframes eggIn {
+      from { opacity: 0; transform: translateY(20px) scale(.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     .egg-header { display:flex; justify-content:space-between; align-items:center; gap:1rem; }
@@ -2658,125 +2673,29 @@
           <div class="section-subtitle">Guias, manuais e recursos para integração</div>
         </div>
 
-        <!-- Grid de recursos -->
-        <div class="docs-grid">
-          <!-- Card principal - Guia de Integração -->
-          <div class="doc-card featured-card">
-            <div class="doc-icon-container">
-              <div class="doc-icon">📖</div>
-            </div>
+        <!-- Simplified Documentation Links: only Confluence + Integration PDF -->
+        <div class="docs-grid docs-grid-compact">
+          <div class="doc-card featured-card compact">
+            <div class="doc-icon-container"><div class="doc-icon">📖</div></div>
             <div class="doc-content">
-              <h4>Guia de Integração</h4>
-              <p>Documentação completa sobre integração de PDVs no sistema iFood.</p>
-              <div class="doc-meta">
-                <span class="doc-type">Confluence</span>
-                <span class="doc-status">Atualizado</span>
-              </div>
+              <h4>Guia de Integração (Confluence)</h4>
+              <p>Acesse o guia oficial de integração na Confluence.</p>
+              <div class="doc-meta"><span class="doc-type">Confluence</span></div>
             </div>
             <div class="doc-actions">
-              <a href="https://ifood.atlassian.net/wiki/x/JhXXNAE" target="_blank" class="btn btn-primary">
-                🔗 Abrir Guia
-              </a>
+              <a href="https://ifood.atlassian.net/wiki/x/JhXXNAE" target="_blank" class="btn btn-primary">🔗 Abrir Confluence</a>
             </div>
           </div>
 
-          <!-- Manual PDF -->
-          <div class="doc-card">
-            <div class="doc-icon-container">
-              <div class="doc-icon">📄</div>
-            </div>
+          <div class="doc-card compact">
+            <div class="doc-icon-container"><div class="doc-icon">📄</div></div>
             <div class="doc-content">
-              <h4>Manual PDF</h4>
-              <p>Manual detalhado em PDF para download e consulta offline.</p>
-              <div class="doc-meta">
-                <span class="doc-type">PDF</span>
-                <span class="doc-size">2.3 MB</span>
-              </div>
+              <h4>PDF de Integração</h4>
+              <p>Manual de integração em PDF para download rápido.</p>
+              <div class="doc-meta"><span class="doc-type">PDF</span></div>
             </div>
             <div class="doc-actions">
-              <button class="btn btn-secondary" onclick="downloadPDF('integration-manual')">
-                📥 Download
-              </button>
-            </div>
-          </div>
-
-          <!-- Troubleshooting -->
-          <div class="doc-card">
-            <div class="doc-icon-container">
-              <div class="doc-icon">🔧</div>
-            </div>
-            <div class="doc-content">
-              <h4>Solução de Problemas</h4>
-              <p>Guia completo para resolver problemas comuns de integração.</p>
-              <div class="doc-meta">
-                <span class="doc-type">Interativo</span>
-                <span class="doc-status">Atualizado</span>
-              </div>
-            </div>
-            <div class="doc-actions">
-              <button class="btn btn-warning" onclick="showTroubleshooting()">
-                🔍 Diagnóstico
-              </button>
-            </div>
-          </div>
-
-          <!-- API Reference -->
-          <div class="doc-card">
-            <div class="doc-icon-container">
-              <div class="doc-icon">⚡</div>
-            </div>
-            <div class="doc-content">
-              <h4>Referência da API</h4>
-              <p>Documentação técnica da API e endpoints disponíveis.</p>
-              <div class="doc-meta">
-                <span class="doc-type">Técnico</span>
-                <span class="doc-status">v2.1</span>
-              </div>
-            </div>
-            <div class="doc-actions">
-              <button class="btn btn-secondary" onclick="showApiDocs()">
-                📚 Ver API
-              </button>
-            </div>
-          </div>
-
-          <!-- Video Tutorial -->
-          <div class="doc-card">
-            <div class="doc-icon-container">
-              <div class="doc-icon">🎥</div>
-            </div>
-            <div class="doc-content">
-              <h4>Tutorial em Vídeo</h4>
-              <p>Vídeo passo-a-passo mostrando todo o processo de integração.</p>
-              <div class="doc-meta">
-                <span class="doc-type">Vídeo</span>
-                <span class="doc-duration">12 min</span>
-              </div>
-            </div>
-            <div class="doc-actions">
-              <button class="btn btn-primary" onclick="playTutorialVideo()">
-                ▶️ Assistir
-              </button>
-            </div>
-          </div>
-
-          <!-- FAQ -->
-          <div class="doc-card">
-            <div class="doc-icon-container">
-              <div class="doc-icon">❓</div>
-            </div>
-            <div class="doc-content">
-              <h4>Perguntas Frequentes</h4>
-              <p>Respostas para as dúvidas mais comuns sobre integração.</p>
-              <div class="doc-meta">
-                <span class="doc-type">FAQ</span>
-                <span class="doc-items">25 itens</span>
-              </div>
-            </div>
-            <div class="doc-actions">
-              <button class="btn btn-secondary" onclick="showFAQ()">
-                💬 Ver FAQ
-              </button>
+              <a href="/docs/integration-manual.pdf" target="_blank" class="btn btn-secondary">📥 Abrir PDF</a>
             </div>
           </div>
         </div>
@@ -2830,6 +2749,39 @@
     <div class="loading-content">
       <div class="spinner"></div>
       <p>Carregando dados...</p>
+    </div>
+  </div>
+
+  <!-- ================ ✏️ EDIT ITEM MODAL ================ -->
+  <div id="editModal" class="egg-modal hidden">
+    <div class="egg-content" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
+      <div class="egg-header">
+        <h3 id="editModalTitle">✏️ Editar Item</h3>
+        <button class="btn btn-secondary" onclick="closeEditModal()">Fechar</button>
+      </div>
+      <div class="egg-body">
+        <form id="editForm" onsubmit="event.preventDefault(); saveEditModal();">
+          <input type="hidden" id="edit-id">
+          <div style="display:flex;gap:0.5rem;margin-bottom:0.5rem;">
+            <input id="edit-nome" placeholder="Nome do PDV" style="flex:1;padding:0.5rem;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text-primary);" />
+            <select id="edit-status" style="padding:0.5rem;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text-primary);">
+              <option>Integrado</option>
+              <option>Pendente</option>
+              <option>Erro</option>
+            </select>
+          </div>
+          <div style="display:flex;gap:0.5rem;align-items:center;">
+            <label style="font-size:0.85rem;color:var(--text-muted);">Integrado:</label>
+            <select id="edit-integrado" style="padding:0.35rem;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text-primary);">
+              <option>Sim</option>
+              <option>Não</option>
+            </select>
+          </div>
+          <div style="margin-top:1rem;text-align:right;">
+            <button class="btn btn-primary" type="submit">💾 Salvar</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 
@@ -3033,6 +2985,8 @@
     // ================ 📊 CARREGAR DADOS REAIS (COM JSONP FALLBACK) ================
     async function loadRealData() {
       console.log('📊 Carregando dados reais...');
+      const overlay = document.getElementById('loadingOverlay');
+      if (overlay) overlay.classList.add('active');
 
       try {
         const dataUrl = `${CONFIG.scriptUrl}?action=getData&_t=${Date.now()}`;
@@ -3076,7 +3030,6 @@
             applyDataToDashboard(jsonpResult);
             return;
           }
-
           throw fetchErr;
         }
 
@@ -3087,6 +3040,12 @@
         // Fallback para dados simulados
         loadSimulatedData();
         updateQuickInfo();
+      }
+      finally {
+        // Garantir remoção do overlay
+        if (overlay) {
+          setTimeout(() => overlay.classList.remove('active'), 220);
+        }
       }
     }
 
@@ -3268,8 +3227,9 @@
             </span>
           </td>
           <td class="font-mono text-muted">${item.ultimaModificacao}</td>
-          <td>
-            <button class="btn btn-secondary" onclick="editItem(${item.id})" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">
+          <td style="display:flex;gap:0.4rem;">
+            <button class="btn btn-ghost" onclick="copyRow(${item.id})" title="Copiar linha" style="padding:0.25rem 0.45rem;font-size:0.78rem;">📋</button>
+            <button class="btn btn-secondary" onclick="openEditModal(${item.id})" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">
               ✏️ Editar
             </button>
           </td>
@@ -3395,7 +3355,57 @@
     }
 
     function editItem(id) {
-      showAlert(`✏️ Funcionalidade de edição para item ${id} em desenvolvimento`, 'info');
+      // delegar para o modal de edição
+      openEditModal(id);
+    }
+
+    function openEditModal(id) {
+      const item = currentData.find(i => Number(i.id) === Number(id));
+      if (!item) { showAlert('❌ Item não encontrado', 'error'); return; }
+      document.getElementById('edit-id').value = item.id;
+      document.getElementById('edit-nome').value = item.nome || '';
+      document.getElementById('edit-status').value = item.status || 'Pendente';
+      document.getElementById('edit-integrado').value = item.integrado || 'Não';
+      const modal = document.getElementById('editModal');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeEditModal() {
+      const modal = document.getElementById('editModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function saveEditModal() {
+      const id = document.getElementById('edit-id').value;
+      const nome = document.getElementById('edit-nome').value;
+      const status = document.getElementById('edit-status').value;
+      const integrado = document.getElementById('edit-integrado').value;
+
+      const idx = currentData.findIndex(i => String(i.id) === String(id));
+      if (idx === -1) { showAlert('❌ Item não encontrado', 'error'); return; }
+
+      currentData[idx].nome = nome;
+      currentData[idx].status = status;
+      currentData[idx].integrado = integrado;
+      currentData[idx].ultimaModificacao = new Date().toLocaleString();
+
+      updateStats();
+      updateTable();
+      updateQuickInfo();
+      closeEditModal();
+      showAlert('✅ Item salvo localmente', 'success');
+    }
+
+    function copyRow(id) {
+      const item = currentData.find(i => Number(i.id) === Number(id));
+      if (!item) { showAlert('❌ Item não encontrado para copiar', 'error'); return; }
+      const text = `ID: ${item.id}\nNome: ${item.nome}\nStatus: ${item.status}\nIntegrado: ${item.integrado}\nÚltima Modificação: ${item.ultimaModificacao}`;
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => showAlert('📋 Linha copiada para a área de transferência', 'success'))
+        .catch(() => { fallbackCopyTextToClipboard(text); });
+      } else {
+        fallbackCopyTextToClipboard(text);
+      }
     }
 
     // ================ 🏷️ CONTROLE DE ABAS ================
@@ -3527,8 +3537,8 @@
       const pdf = pdfs[pdfType];
       if (pdf) {
         // Simular download
-        showAlert('📥 Iniciando download do ' + pdf.name, 'info');
-        // Em produção, você faria: window.open(pdf.url, '_blank');
+        showAlert('📥 Abrindo ' + pdf.name + ' em nova aba', 'info');
+        try { window.open(pdf.url, '_blank'); } catch (err) { console.warn('Não foi possível abrir PDF:', err); }
       }
     }
 
