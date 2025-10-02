@@ -258,7 +258,7 @@
   .iframe-wrap {
     position: relative;
     width: 100%;
-    min-height: 100vh;
+    min-height: 600px;
     border-radius: 0;
     overflow: hidden;
     background: transparent;
@@ -267,11 +267,12 @@
   iframe {
     position: relative;
     width: 100%;
-    min-height: 2500px;
-    height: 2500px;
+    min-height: 800px;
+    height: 800px;
     border: 0;
     background: transparent;
     overflow: hidden;
+    transition: height 0.3s ease;
   }
   
   /* Loading spinner */
@@ -495,37 +496,112 @@
       }
     });
     
-    // Detecta quando o iframe carrega e remove o spinner
+    // Sistema inteligente de ajuste automático do iframe
     const iframe = document.querySelector('iframe');
+    let lastHeight = 0;
+    
     iframe.addEventListener('load', function() {
       document.querySelector('.loading').style.display = 'none';
       
-      // Ajusta altura do iframe dinamicamente para evitar scroll duplo
+      // Função para ajustar altura do iframe automaticamente
       function adjustIframeHeight() {
         try {
-          // Tenta obter a altura do conteúdo do iframe
+          // Tenta acessar o conteúdo do iframe (pode falhar por CORS)
           const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-          const height = iframeDoc.body.scrollHeight;
+          const body = iframeDoc.body;
+          const html = iframeDoc.documentElement;
           
-          if (height > 0) {
-            iframe.style.height = height + 'px';
+          // Pega a altura real do conteúdo
+          const height = Math.max(
+            body.scrollHeight,
+            body.offsetHeight,
+            html.clientHeight,
+            html.scrollHeight,
+            html.offsetHeight
+          );
+          
+          // Só atualiza se houver mudança significativa (evita flickering)
+          if (Math.abs(height - lastHeight) > 50) {
+            lastHeight = height;
+            iframe.style.height = (height + 100) + 'px'; // +100px de margem de segurança
+            console.log('Altura ajustada para:', height + 100 + 'px');
           }
         } catch (e) {
-          // Se não conseguir acessar o conteúdo (CORS), usa altura fixa generosa
-          iframe.style.height = '3000px';
+          // CORS bloqueou o acesso - usa método alternativo
+          // Monitora mensagens postMessage do Google Forms
+          console.log('Usando método alternativo (CORS)');
         }
       }
       
-      // Ajusta altura inicialmente
-      setTimeout(adjustIframeHeight, 500);
+      // Escuta mensagens do iframe (Google Forms envia altura via postMessage)
+      window.addEventListener('message', function(event) {
+        // Verifica se a mensagem vem do Google Forms
+        if (event.origin.includes('docs.google.com')) {
+          try {
+            const data = event.data;
+            
+            // Google Forms pode enviar altura em diferentes formatos
+            if (typeof data === 'object' && data.height) {
+              const newHeight = parseInt(data.height);
+              if (newHeight > 100 && Math.abs(newHeight - lastHeight) > 50) {
+                lastHeight = newHeight;
+                iframe.style.height = (newHeight + 50) + 'px';
+                console.log('Altura ajustada via postMessage:', newHeight + 50 + 'px');
+              }
+            }
+            
+            // Alguns formulários enviam como string JSON
+            if (typeof data === 'string' && data.includes('height')) {
+              const parsed = JSON.parse(data);
+              if (parsed.height) {
+                const newHeight = parseInt(parsed.height);
+                if (newHeight > 100 && Math.abs(newHeight - lastHeight) > 50) {
+                  lastHeight = newHeight;
+                  iframe.style.height = (newHeight + 50) + 'px';
+                  console.log('Altura ajustada via JSON:', newHeight + 50 + 'px');
+                }
+              }
+            }
+          } catch (e) {
+            // Ignora mensagens que não são relevantes
+          }
+        }
+      });
       
-      // Ajusta altura quando houver mudanças
-      setInterval(adjustIframeHeight, 2000);
+      // Ajusta altura inicial
+      setTimeout(adjustIframeHeight, 300);
+      setTimeout(adjustIframeHeight, 1000);
+      setTimeout(adjustIframeHeight, 2000);
       
-      // Observa mudanças de tamanho
+      // Continua ajustando periodicamente (mas menos frequente)
+      setInterval(adjustIframeHeight, 3000);
+      
+      // Observa mudanças de tamanho da janela
+      window.addEventListener('resize', adjustIframeHeight);
+      
+      // ResizeObserver para detectar mudanças no iframe
       if (window.ResizeObserver) {
-        const resizeObserver = new ResizeObserver(adjustIframeHeight);
+        const resizeObserver = new ResizeObserver(function(entries) {
+          for (let entry of entries) {
+            adjustIframeHeight();
+          }
+        });
         resizeObserver.observe(iframe);
+      }
+      
+      // MutationObserver como último recurso
+      if (window.MutationObserver) {
+        const mutationObserver = new MutationObserver(adjustIframeHeight);
+        try {
+          const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+          mutationObserver.observe(iframeDoc.body, {
+            childList: true,
+            subtree: true,
+            attributes: true
+          });
+        } catch (e) {
+          // CORS bloqueou
+        }
       }
     });
   </script>
