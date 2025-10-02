@@ -258,19 +258,20 @@
   .iframe-wrap {
     position: relative;
     width: 100%;
-    min-height: calc(100vh - 400px);
+    min-height: 100vh;
     border-radius: 0;
-    overflow: visible;
+    overflow: hidden;
     background: transparent;
   }
   
   iframe {
     position: relative;
     width: 100%;
-    min-height: 1200px;
-    height: auto;
+    min-height: 2500px;
+    height: 2500px;
     border: 0;
     background: transparent;
+    overflow: hidden;
   }
   
   /* Loading spinner */
@@ -495,8 +496,37 @@
     });
     
     // Detecta quando o iframe carrega e remove o spinner
-    document.querySelector('iframe').addEventListener('load', function() {
+    const iframe = document.querySelector('iframe');
+    iframe.addEventListener('load', function() {
       document.querySelector('.loading').style.display = 'none';
+      
+      // Ajusta altura do iframe dinamicamente para evitar scroll duplo
+      function adjustIframeHeight() {
+        try {
+          // Tenta obter a altura do conteúdo do iframe
+          const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+          const height = iframeDoc.body.scrollHeight;
+          
+          if (height > 0) {
+            iframe.style.height = height + 'px';
+          }
+        } catch (e) {
+          // Se não conseguir acessar o conteúdo (CORS), usa altura fixa generosa
+          iframe.style.height = '3000px';
+        }
+      }
+      
+      // Ajusta altura inicialmente
+      setTimeout(adjustIframeHeight, 500);
+      
+      // Ajusta altura quando houver mudanças
+      setInterval(adjustIframeHeight, 2000);
+      
+      // Observa mudanças de tamanho
+      if (window.ResizeObserver) {
+        const resizeObserver = new ResizeObserver(adjustIframeHeight);
+        resizeObserver.observe(iframe);
+      }
     });
   </script>
 </body>
