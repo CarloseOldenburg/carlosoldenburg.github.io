@@ -10,13 +10,13 @@
     --guara-red: #EA1D2C;     /* Vermelho iFood */
     --guara-orange: #FF6A00;  /* Laranja cerrado */
     --guara-yellow: #FFB600;  /* Amarelo complementar */
-    --bg: #0b0b0b;
-    --card: #141414;
-    --text: #EDEDED;
-    --muted: #9A9A9A;
-    --accent: #ffffff;
+    --bg: #ffffff;
+    --card: #ffffff;
+    --text: #333333;
+    --muted: #666666;
+    --accent: #000000;
     --radius: 20px;
-    --shadow: 0 20px 50px rgba(0,0,0,0.5);
+    --shadow: 0 20px 50px rgba(0,0,0,0.1);
   }
   
   * { 
@@ -33,9 +33,9 @@
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     background: 
-      radial-gradient(800px 800px at 20% 0%, rgba(255,106,0,0.15), transparent 50%),
-      radial-gradient(800px 800px at 80% 100%, rgba(234,29,44,0.15), transparent 50%),
-      radial-gradient(1200px 1200px at 50% 50%, rgba(255,182,0,0.05), transparent 70%),
+      radial-gradient(800px 800px at 20% 0%, rgba(255,106,0,0.08), transparent 50%),
+      radial-gradient(800px 800px at 80% 100%, rgba(234,29,44,0.08), transparent 50%),
+      radial-gradient(1200px 1200px at 50% 50%, rgba(255,182,0,0.03), transparent 70%),
       var(--bg);
     color: var(--text);
     min-height: 100vh;
@@ -177,55 +177,36 @@
   
   /* Card principal */
   .card {
-    background: 
-      linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)),
-      rgba(20, 20, 20, 0.8);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: var(--radius);
+    background: transparent;
+    border: none;
+    border-radius: 0;
     margin-top: 30px;
-    padding: 20px;
-    box-shadow: var(--shadow);
-    backdrop-filter: blur(10px);
+    padding: 0;
+    box-shadow: none;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
   }
   
   .card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, 
-      transparent, 
-      var(--guara-red), 
-      var(--guara-orange), 
-      transparent);
-    animation: shimmer 3s ease-in-out infinite;
-  }
-  
-  @keyframes shimmer {
-    0% { opacity: 0.5; }
-    50% { opacity: 1; }
-    100% { opacity: 0.5; }
+    display: none;
   }
   
   .iframe-wrap {
     position: relative;
     width: 100%;
-    height: 800px; /* Altura fixa para melhor controle */
-    border-radius: calc(var(--radius) - 8px);
-    overflow: hidden;
-    background: #ffffff;
+    min-height: calc(100vh - 400px);
+    border-radius: 0;
+    overflow: visible;
+    background: transparent;
   }
   
   iframe {
-    position: absolute;
-    inset: 0;
+    position: relative;
     width: 100%;
-    height: 100%;
+    min-height: 1200px;
+    height: auto;
     border: 0;
+    background: transparent;
   }
   
   /* Loading spinner */
@@ -241,7 +222,7 @@
   .spinner {
     width: 50px;
     height: 50px;
-    border: 3px solid rgba(255,255,255,0.1);
+    border: 3px solid rgba(234,29,44,0.2);
     border-top-color: var(--guara-red);
     border-radius: 50%;
     animation: spin 1s linear infinite;
@@ -256,7 +237,7 @@
   footer {
     margin-top: 40px;
     padding: 30px;
-    background: linear-gradient(180deg, transparent, rgba(255,255,255,0.02));
+    background: linear-gradient(180deg, transparent, rgba(234,29,44,0.03));
     border-radius: var(--radius);
     text-align: center;
   }
@@ -273,9 +254,9 @@
     gap: 20px;
     margin: 30px 0;
     padding: 20px;
-    background: rgba(255,255,255,0.03);
+    background: rgba(255,255,255,0.5);
     border-radius: calc(var(--radius) - 5px);
-    border: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid rgba(234,29,44,0.15);
   }
   
   .stat {
